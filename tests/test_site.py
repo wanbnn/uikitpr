@@ -30,9 +30,19 @@ def test_static_site_build(tmp_path):
     manifest = json.loads(
         (output / "asset-manifest.json").read_text(encoding="utf-8")
     )
-    assert manifest["cache"]["id"] == "uikitpr-site-0.3.1"
+    assert manifest["cache"]["id"] == "uikitpr-site-0.3.2"
+    assert "loop ambiente · carregando" in html
     assert (output / manifest["assets"]["uikitpr.css"]["path"]).stat().st_size > 10_000
     assert (output / manifest["assets"]["site.css"]["path"]).is_file()
+    site_css = (output / manifest["assets"]["site.css"]["path"]).read_text(
+        encoding="utf-8"
+    )
+    assert "@keyframes motion-core-idle" in site_css
+    app_js = (output / manifest["assets"]["app.js"]["path"]).read_text(
+        encoding="utf-8"
+    )
+    assert "event.detail.preset" in app_js
+    assert "loop ambiente" in app_js
     assert (output / manifest["assets"]["uikitpr-motion.js"]["path"]).stat().st_size > 10_000
     assert (output / "sw.js").is_file()
     assert "network-first" in (output / "sw.js").read_text(encoding="utf-8")

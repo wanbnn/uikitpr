@@ -1,11 +1,11 @@
 /**
- * UIKitPR Cache 0.3.1
+ * UIKitPR Cache 0.3.2
  * Registro, atualização, diagnóstico e invalidação do cache web.
  */
 (() => {
   "use strict";
 
-  const VERSION = "0.3.1";
+  const VERSION = "0.3.2";
   const script = document.currentScript
     || document.querySelector("[data-uipr-cache-runtime]");
   const options = {

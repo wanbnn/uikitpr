@@ -81,7 +81,7 @@ from .theme import (
     stylesheet_data_url,
 )
 
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
 __all__ = [
     "Alert", "Avatar", "Badge", "BarsLoader", "Box", "Breadcrumb", "Button",

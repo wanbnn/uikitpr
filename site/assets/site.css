@@ -389,7 +389,13 @@ a { color: inherit; }
     0 28px 65px rgba(92, 57, 224, .34),
     inset 0 1px rgba(255,255,255,.35);
   font-size: 3rem;
-  transform: rotate(-7deg);
+  transform: translateY(0) rotate(-7deg) scale(1);
+  transform-origin: center;
+  animation: motion-core-idle 3.2s ease-in-out infinite;
+}
+@keyframes motion-core-idle {
+  0%, 100% { transform: translateY(0) rotate(-7deg) scale(1); }
+  50% { transform: translateY(-9px) rotate(-4deg) scale(1.035); }
 }
 .motion-core::before {
   content: "";
@@ -609,6 +615,7 @@ a { color: inherit; }
   .theme-card { transform: none; }
   .motion-stage::before,
   .motion-stage::after,
+  .motion-core,
   .motion-core-ring,
   .motion-float-label { animation: none; }
 }

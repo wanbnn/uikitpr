@@ -139,5 +139,8 @@ Eventos DOM:
 - `uipr:motion:ready`
 - `uipr:motion:control`
 
+Os eventos de início, conclusão e cancelamento incluem `preset`, `animate`,
+`config` e, quando aplicável, `animation` em `event.detail`.
+
 O runtime observa VNodes adicionados depois do carregamento, respeita
 `prefers-reduced-motion` e remove listeners e animações quando nós saem do DOM.

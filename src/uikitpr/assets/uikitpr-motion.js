@@ -1,11 +1,11 @@
 /**
- * UIKitPR Motion 0.3.1
+ * UIKitPR Motion 0.3.2
  * Runtime visual, declarativo e sem dependências.
  */
 (() => {
   "use strict";
 
-  const VERSION = "0.3.1";
+  const VERSION = "0.3.2";
   const MOTION_SELECTOR = "[data-uipr-motion]";
   const GROUP_SELECTOR = "[data-uipr-motion-group]";
   const TIMELINE_SELECTOR = "[data-uipr-timeline]";
@@ -204,15 +204,20 @@
     const config = state.config;
     const transition = { ...(config.transition || {}), ...transitionOverride };
     const frames = framesFor(config, override);
+    const preset = typeof override === "string" ? override : config.preset;
     if (media.matches || typeof element.animate !== "function") {
       emit(element, "uipr:motion:start", {
         config,
+        preset,
+        animate: override,
         reducedMotion: media.matches,
         fallback: typeof element.animate !== "function",
       });
       Object.assign(element.style, frames[frames.length - 1] || {});
       emit(element, "uipr:motion:finish", {
         config,
+        preset,
+        animate: override,
         reducedMotion: media.matches,
         fallback: typeof element.animate !== "function",
       });
@@ -223,15 +228,27 @@
     const animation = element.animate(frames, transitionOptions(transition));
     let completed = false;
     state.animations.add(animation);
-    emit(element, "uipr:motion:start", { animation, config });
+    emit(element, "uipr:motion:start", { animation, config, preset, animate: override });
     animation.addEventListener("finish", () => {
       completed = true;
       state.animations.delete(animation);
-      emit(element, "uipr:motion:finish", { animation, config });
+      emit(element, "uipr:motion:finish", {
+        animation,
+        config,
+        preset,
+        animate: override,
+      });
     }, { once: true });
     animation.addEventListener("cancel", () => {
       state.animations.delete(animation);
-      if (!completed) emit(element, "uipr:motion:cancel", { animation, config });
+      if (!completed) {
+        emit(element, "uipr:motion:cancel", {
+          animation,
+          config,
+          preset,
+          animate: override,
+        });
+      }
     }, { once: true });
     commitAnimation(animation, element, frames);
     return animation;

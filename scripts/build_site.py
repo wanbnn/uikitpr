@@ -424,7 +424,7 @@ def MotionSection():
                                     "div",
                                     {"className": "motion-event-monitor"},
                                     h("span", {"className": "event-light"}),
-                                    h("code", {"data-motion-event": "true"}, "motion: carregando"),
+                                    h("code", {"data-motion-event": "true"}, "loop ambiente · carregando"),
                                 ),
                                 h(
                                     "div",

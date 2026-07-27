@@ -2,6 +2,13 @@
 
 Todas as mudanças relevantes do UIKitPR serão documentadas aqui.
 
+## 0.3.2 - 2026-07-27
+
+- Movimento ambiente contínuo no núcleo da demonstração Motion.
+- Monitor de estado restrito ao alvo principal, sem ruído das animações de entrada.
+- Estados legíveis por preset: executando, concluído, interrompido e loop ambiente.
+- Eventos de lifecycle agora incluem `preset` e `animate` em `event.detail`.
+
 ## 0.3.1 - 2026-07-27
 
 - Controles Motion declarativos por `motion_control()`.

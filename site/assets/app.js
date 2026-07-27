@@ -33,25 +33,41 @@
   });
 
   const motionEvent = document.querySelector("[data-motion-event]");
+  const motionMonitor = motionEvent?.closest(".motion-event-monitor");
+  const motionTarget = "motion-lab-card";
+  let motionRevision = 0;
   const setMotionStatus = (value) => {
     if (motionEvent) motionEvent.textContent = value;
+    motionMonitor?.classList.add("event-active");
+    window.setTimeout(() => motionMonitor?.classList.remove("event-active"), 420);
   };
   if (window.UIKitPRMotion) {
-    setMotionStatus(`motion: v${window.UIKitPRMotion.version}`);
+    setMotionStatus(`loop ambiente · v${window.UIKitPRMotion.version}`);
   } else {
     document.addEventListener(
       "uipr:motion:ready",
-      (event) => setMotionStatus(`motion: v${event.detail.api.version}`),
+      (event) => setMotionStatus(`loop ambiente · v${event.detail.api.version}`),
       { once: true },
     );
   }
-  ["uipr:motion:start", "uipr:motion:finish", "uipr:motion:cancel"].forEach((name) => {
-    document.addEventListener(name, (event) => {
-      if (!motionEvent || !event.target.closest?.(".section-motion")) return;
-      motionEvent.textContent = name;
-      motionEvent.parentElement.classList.add("event-active");
-      window.setTimeout(() => motionEvent.parentElement.classList.remove("event-active"), 420);
-    });
+  document.addEventListener("uipr:motion:start", (event) => {
+    if (event.target.dataset?.uiprMotionId !== motionTarget) return;
+    motionRevision += 1;
+    setMotionStatus(`${event.detail.preset || "motion"} · executando`);
+  });
+  document.addEventListener("uipr:motion:finish", (event) => {
+    if (event.target.dataset?.uiprMotionId !== motionTarget) return;
+    const revision = motionRevision;
+    setMotionStatus(`${event.detail.preset || "motion"} · concluído`);
+    window.setTimeout(() => {
+      if (revision === motionRevision) {
+        setMotionStatus(`loop ambiente · v${window.UIKitPRMotion?.version || "ativo"}`);
+      }
+    }, 900);
+  });
+  document.addEventListener("uipr:motion:cancel", (event) => {
+    if (event.target.dataset?.uiprMotionId !== motionTarget) return;
+    setMotionStatus(`${event.detail.preset || "motion"} · interrompido`);
   });
 
   const cacheStatus = document.querySelector("[data-cache-status]");
