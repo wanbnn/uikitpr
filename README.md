@@ -12,6 +12,8 @@
 Componentes acessíveis, temas e classes utilitárias em um pacote Python,
 sem pipeline Node obrigatório.
 
+**Site:** <https://wanbnn.github.io/uikitpr/>
+
 </div>
 
 ## Por que UIKitPR?
@@ -168,6 +170,19 @@ prpm verify dist
 ```
 
 O exemplo completo está em [`examples/dashboard.py`](examples/dashboard.py).
+
+### Site e GitHub Pages
+
+O site oficial também é construído com PyReact e UIKitPR:
+
+```bash
+prpm run site
+prpm run serve
+```
+
+O primeiro comando gera `_site/`; o segundo serve a página em
+`http://localhost:8000`. Pushes em `main` executam testes, geram o site
+estático e publicam no GitHub Pages.
 
 ## Licença
 
