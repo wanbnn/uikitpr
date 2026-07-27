@@ -2,47 +2,46 @@
 
 # UIKitPR
 
-### O framework visual utility-first feito para PyReact.
+The utility-first visual framework built for PyReact.
 
 [![PyPI](https://img.shields.io/pypi/v/uikitpr?logo=pypi&logoColor=white)](https://pypi.org/project/uikitpr/)
 [![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)](https://python.org)
 [![PyReact](https://img.shields.io/badge/PyReact-1.0.5%2B-6D4AFF)](https://github.com/wanbnn/pyreact)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/wanbnn/uikitpr/blob/main/LICENSE)
+[![Docs](https://readthedocs.org/projects/uikitpr/badge/?version=latest)](https://uikitpr.readthedocs.io/en/latest/)
 
-Componentes acessíveis, temas, classes utilitárias e um motor próprio de
-motion em um pacote Python, sem pipeline Node obrigatório.
+Accessible components, themes, utility classes, and a native motion engine in
+one Python package, with no mandatory Node pipeline.
 
-**Site:** <https://wanbnn.github.io/uikitpr/>
+**Website:** <https://wanbnn.github.io/uikitpr/>
 
 </div>
 
-## Por que UIKitPR?
+## Why UIKitPR?
 
-Tailwind é excelente para compor layouts e Bootstrap acelera componentes
-comuns. O UIKitPR leva as duas ideias ao ecossistema PyReact:
+UIKitPR brings Tailwind-like composition and ready-made components to PyReact:
 
-- classes utilitárias previsíveis (`flex`, `gap-4`, `grid-cols-3`, `p-6`);
-- componentes Python que retornam VNodes PyReact;
-- temas claro, escuro e customizados por CSS variables;
-- SSR, handlers e propriedades compatíveis com `h()` do PyReact;
-- CSS incluído no wheel e exportável pela CLI;
-- motion com spring, timelines, stagger, scroll, eventos e lifecycle;
-- cache web com fingerprint, manifesto, atualização e Service Worker;
-- loaders, skeletons e estados visuais prontos;
-- nenhuma dependência JavaScript ou etapa de compilação.
+- predictable utility classes such as `flex`, `gap-4`, and `grid-cols-3`;
+- Python components that return PyReact VNodes;
+- light, dark, and custom themes powered by CSS variables;
+- SSR, handlers, and properties compatible with PyReact's `h()`;
+- CSS bundled in the wheel and exportable through the CLI;
+- motion with springs, timelines, stagger, scroll, events, and lifecycle;
+- fingerprinted web assets, manifests, updates, and Service Workers;
+- loaders, skeletons, and ready-to-use visual states;
+- no JavaScript dependency or compilation step.
 
-## Instalação com PRPM
+## Installation
 
 ```bash
 prpm add uikitpr
 ```
 
-Também é possível instalar com `pip install uikitpr`.
+You can also use `pip install uikitpr`.
 
-## Início rápido
+## Quick start
 
 ```python
-from pyreact import h
 from uikitpr import Button, Card, CardBody, Heading, Stack, UIProvider
 
 
@@ -51,8 +50,8 @@ def App(props):
         Card(
             CardBody(
                 Stack(
-                    Heading("Olá, PyReact!", level=1),
-                    Button("Começar", variant="primary", onClick=lambda: print("oi")),
+                    Heading("Hello, PyReact!", level=1),
+                    Button("Get started", variant="primary"),
                     gap=4,
                 )
             )
@@ -62,76 +61,59 @@ def App(props):
     )
 ```
 
-Os componentes aceitam filhos diretamente, como acima, ou através de
-`h(Component, {"children": ...})`:
+Components accept children directly or through
+`h(Component, {"children": ...})`. The explicit `children` property is
+important with current PyReact functional components.
 
-```python
-h(Button, {"children": "Salvar", "variant": "outline"})
-```
+## Utilities
 
-Essa forma explícita em `props` é importante na versão atual do PyReact, cujo
-renderer não transfere automaticamente os filhos de `h(Component, props, *children)`
-para componentes funcionais.
-
-## Utilitários
-
-Use classes diretamente em `className` ou `class_name`:
+Use classes in `className` or `class_name`:
 
 ```python
 from uikitpr import Box, cx
 
 Box(
-    "Conteúdo",
+    "Content",
     class_name=cx(
         "flex items-center gap-4 p-6 rounded shadow",
-        {"bg-primary-soft": destaque, "hidden": not visivel},
+        {"bg-primary-soft": highlighted, "hidden": not visible},
     ),
 )
 ```
 
-O CSS inclui layout flex/grid, espaçamento, sizing, tipografia, cores,
-bordas, sombras e variantes responsivas sem caracteres especiais, como
-`md-grid-cols-3` e `lg-grid-cols-4`.
+The stylesheet includes flex/grid layout, spacing, sizing, typography, colors,
+borders, shadows, and responsive variants such as `md-grid-cols-3`.
 
-## Componentes
+## Components
 
-| Grupo | Componentes |
+| Group | Components |
 | --- | --- |
 | Layout | `Box`, `Container`, `Stack`, `Grid`, `Divider` |
-| Tipografia | `Heading`, `Text`, `Badge` |
-| Ações | `Button`, `IconButton` |
-| Formulários | `Input`, `Textarea`, `Select`, `Checkbox`, `Switch` |
+| Typography | `Heading`, `Text`, `Badge` |
+| Actions | `Button`, `IconButton` |
+| Forms | `Input`, `Textarea`, `Select`, `Checkbox`, `Switch` |
 | Feedback | `Alert`, `Spinner`, `Progress`, `Modal` |
-| Dados e navegação | `Card`, `Table`, `Navbar`, `Breadcrumb`, `Avatar` |
+| Data and navigation | `Card`, `Table`, `Navbar`, `Breadcrumb`, `Avatar` |
 
-Variantes mais usadas:
+Unconsumed properties are forwarded to the DOM VNode, including `onClick`,
+`aria-*`, `data-*`, `style`, `id`, and `name`. See the
+[component reference](https://uikitpr.readthedocs.io/en/latest/COMPONENTS.html).
 
-```python
-Button("Primário", variant="primary")
-Button("Contorno", variant="outline", size="lg")
-Badge("Ativo", tone="success", pill=True)
-Alert("Confira os dados.", tone="warning", title="Atenção")
-Input(label="E-mail", name="email", type="email", help_text="Seu acesso.")
-```
+## Themes
 
-Propriedades não consumidas pelo componente são encaminhadas ao VNode DOM,
-incluindo `onClick`, `aria-*`, `data-*`, `style`, `id` e `name`.
-
-## Temas
-
-`UIProvider` inclui o CSS e configura o tema:
+`UIProvider` includes the CSS and selects a theme:
 
 ```python
 UIProvider(AppContent(), theme="dark", full_height=True)
 ```
 
-Crie uma marca usando tokens:
+Create a branded theme with tokens:
 
 ```python
 from uikitpr import create_theme
 
 brand = create_theme(
-    "minha-marca",
+    "my-brand",
     primary="#ff006e",
     primary_hover="#d9005d",
     radius="1rem",
@@ -140,9 +122,9 @@ brand = create_theme(
 UIProvider(AppContent(), theme=brand)
 ```
 
-## Motion, animações e eventos
+## Motion and interaction
 
-`UIProvider` inclui o runtime UIKitPR Motion por padrão:
+`UIProvider` includes the UIKitPR Motion runtime by default:
 
 ```python
 from uikitpr import Motion, Spring, Transition
@@ -160,24 +142,16 @@ Motion(
 )
 ```
 
-O motor oferece:
+The engine supports mount, in-view, click, hover, tap, focus, and scroll
+animations; presets and custom keyframes; spring physics; staggered groups;
+timelines; lifecycle events; declarative controls; dynamically added VNodes;
+and `prefers-reduced-motion`. See the
+[Motion guide](https://uikitpr.readthedocs.io/en/latest/MOTION.html).
 
-- animações de mount, in-view, click, hover, tap, focus e scroll;
-- presets, keyframes customizados e spring physics;
-- `MotionGroup` com stagger e `MotionTimeline` para orchestration;
-- lifecycle via eventos `uipr:motion:*`;
-- API imperativa `window.UIKitPRMotion`;
-- controles declarativos com `motion_control()`;
-- MutationObserver para VNodes adicionados dinamicamente;
-- suporte a `prefers-reduced-motion`.
+## Web cache and deployment
 
-Consulte [docs/MOTION.md](docs/MOTION.md) para a API completa.
-
-## Cache web e deploy sem assets antigos
-
-O `CacheManager` escreve assets com fingerprint SHA-256, um manifesto
-inspecionável e um Service Worker versionado. Assim, cada alteração ganha uma
-URL nova e versões antigas são removidas na ativação:
+`CacheManager` writes SHA-256-fingerprinted assets, an inspectable manifest, and
+a versioned Service Worker:
 
 ```python
 from pathlib import Path
@@ -191,28 +165,13 @@ css = cache.add_text("uikitpr.css", stylesheet())
 motion = cache.add_text("uikitpr-motion.js", motion_script())
 runtime = cache.add_text("uikitpr-cache.js", cache_script())
 cache.finalize(precache=["./"])
-
-print(css.path, motion.path, runtime.path)
 ```
 
-Para registrar o Service Worker em uma árvore PyReact:
+The browser exposes `window.UIKitPRCache.register()`, `refresh()`, `manifest()`,
+`status()`, and `clear()`. See the
+[cache guide](https://uikitpr.readthedocs.io/en/latest/CACHE.html).
 
-```python
-from uikitpr import CacheRuntime
-
-CacheRuntime(
-    src="/assets/uikitpr-cache.js",
-    service_worker="/sw.js",
-    manifest="/asset-manifest.json",
-    version="2026.07.27",
-    cache_name="my-app",
-)
-```
-
-O cliente expõe `window.UIKitPRCache.register()`, `refresh()`, `manifest()`,
-`status()` e `clear()`. Consulte [docs/CACHE.md](docs/CACHE.md).
-
-## Loaders e estados visuais
+## Loaders and visual states
 
 ```python
 from uikitpr import OrbitLoader, Skeleton, SkeletonCard
@@ -222,14 +181,13 @@ Skeleton(lines=3)
 SkeletonCard()
 ```
 
-Também estão disponíveis `DotsLoader`, `BarsLoader`, `RingLoader`,
-`PulseLoader`, `WaveLoader` e `PageLoader`.
+`DotsLoader`, `BarsLoader`, `RingLoader`, `PulseLoader`, `WaveLoader`, and
+`PageLoader` are also available.
 
-## CSS externo e CSP
+## External CSS and CSP
 
-Por padrão, `UIProvider` inclui um `<link>` com o stylesheet em uma `data: URL`.
-Esse formato evita o escaping aplicado pelo SSR do PyReact a filhos de
-`<style>`. Para produção com CSP estrita, exporte e sirva o asset separadamente:
+For strict Content Security Policy deployments, export and serve assets
+separately:
 
 ```bash
 uikitpr css -o static/uikitpr.css
@@ -238,8 +196,6 @@ uikitpr motion -o static/uikitpr-motion.js
 uikitpr cache -o static/uikitpr-cache.js
 ```
 
-Então use:
-
 ```python
 from uikitpr import Styles
 
@@ -247,10 +203,9 @@ Styles(href="/static/uikitpr.css")
 UIProvider(AppContent(), with_styles=False)
 ```
 
-Para renderização exclusivamente cliente, `Styles(inline=True, nonce="...")`
-também é suportado em políticas CSP baseadas em nonce.
+Client-only rendering also supports `Styles(inline=True, nonce="...")`.
 
-## Desenvolvimento
+## Development
 
 ```bash
 prpm install
@@ -259,21 +214,16 @@ prpm pack
 prpm verify dist
 ```
 
-O exemplo completo está em [`examples/dashboard.py`](examples/dashboard.py).
+The complete example is available in
+[`examples/dashboard.py`](https://github.com/wanbnn/uikitpr/blob/main/examples/dashboard.py).
+Build and serve the official
+website with `prpm run site` and `prpm run serve`.
 
-### Site e GitHub Pages
+## Documentation
 
-O site oficial também é construído com PyReact e UIKitPR:
+The complete English documentation is available on
+[Read the Docs](https://uikitpr.readthedocs.io/en/latest/).
 
-```bash
-prpm run site
-prpm run serve
-```
+## License
 
-O primeiro comando gera `_site/`; o segundo serve a página em
-`http://localhost:8000`. Pushes em `main` executam testes, geram o site
-estático e publicam no GitHub Pages.
-
-## Licença
-
-MIT. Veja [LICENSE](LICENSE).
+MIT. See [LICENSE](https://github.com/wanbnn/uikitpr/blob/main/LICENSE).

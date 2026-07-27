@@ -1,9 +1,9 @@
-# Componentes
+# Components
 
-Todo componente aceita `className`, `class_name`, `style`, eventos e atributos
-HTML. Os valores abaixo são específicos do UIKitPR.
+Every component accepts `className`, `class_name`, `style`, events, and HTML
+attributes. The values below are specific to UIKitPR.
 
-| Componente | Propriedades principais |
+| Component | Main properties |
 | --- | --- |
 | `Container` | `size=sm/md/lg/xl/full` |
 | `Stack` | `direction`, `gap`, `align`, `justify`, `wrap` |
@@ -25,29 +25,29 @@ HTML. Os valores abaixo são específicos do UIKitPR.
 | `Skeleton` | `variant`, `lines` |
 | `PageLoader` | `loader`, `overlay`, `label` |
 
-## Composição
+## Composition
 
-Construtores diretos são a forma mais natural de expressar árvores em Python:
+Direct constructors are the most natural way to express trees in Python:
 
 ```python
 Card(
-    CardHeader(Heading("Conta", level=2)),
-    CardBody(Text("Preferências do usuário.")),
-    CardFooter(Button("Salvar")),
+    CardHeader(Heading("Account", level=2)),
+    CardBody(Text("User preferences.")),
+    CardFooter(Button("Save")),
 )
 ```
 
-Para um componente dentro de `h`, forneça filhos em `props`:
+When using a component inside `h`, provide children through `props`:
 
 ```python
-h(Button, {"children": "Salvar", "variant": "primary"})
+h(Button, {"children": "Save", "variant": "primary"})
 ```
 
-## Acessibilidade
+## Accessibility
 
-- `Button(loading=True)` define `disabled` e `aria-busy`.
-- `Alert` usa `role="alert"`.
-- `Spinner` usa `role="status"` e rótulo configurável.
-- `Progress` expõe todos os atributos ARIA de faixa.
-- `Modal` usa `role="dialog"` e `aria-modal`.
-- campos com `error` recebem `aria-invalid`.
+- `Button(loading=True)` sets `disabled` and `aria-busy`.
+- `Alert` uses `role="alert"`.
+- `Spinner` uses `role="status"` and a configurable label.
+- `Progress` exposes the complete range ARIA attributes.
+- `Modal` uses `role="dialog"` and `aria-modal`.
+- Fields with an `error` receive `aria-invalid`.

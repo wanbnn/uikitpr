@@ -1,45 +1,45 @@
 # Changelog
 
-Todas as mudanças relevantes do UIKitPR serão documentadas aqui.
+All notable UIKitPR changes will be documented in this file.
 
 ## 0.3.2 - 2026-07-27
 
-- Movimento ambiente contínuo no núcleo da demonstração Motion.
-- Monitor de estado restrito ao alvo principal, sem ruído das animações de entrada.
-- Estados legíveis por preset: executando, concluído, interrompido e loop ambiente.
-- Eventos de lifecycle agora incluem `preset` e `animate` em `event.detail`.
+- Added continuous ambient movement to the Motion demonstration.
+- Limited the state monitor to the main target, excluding entry-animation noise.
+- Added readable per-preset states: running, completed, interrupted, and ambient loop.
+- Lifecycle events now include `preset` and `animate` in `event.detail`.
 
 ## 0.3.1 - 2026-07-27
 
-- Controles Motion declarativos por `motion_control()`.
-- Delegação de cliques integrada diretamente ao runtime Motion.
-- Resolução de `motion_id` sem depender de interpolação em seletores CSS.
-- Demonstração Pop, Shake, Flip e Blur independente do JavaScript auxiliar.
+- Added declarative Motion controls through `motion_control()`.
+- Integrated click delegation directly into the Motion runtime.
+- Resolved `motion_id` without CSS selector interpolation.
+- Made Pop, Shake, Flip, and Blur demos independent from helper JavaScript.
 
 ## 0.3.0 - 2026-07-27
 
-- Gerenciador de cache integrado com fingerprints SHA-256 e manifesto de assets.
-- Service Worker versionado com estratégias configuráveis e limpeza automática.
-- API web de diagnóstico, atualização, registro e invalidação.
-- URLs imutáveis no site oficial para impedir mistura de releases no GitHub Pages.
-- Indicadores ao vivo de Motion e Cache na demonstração.
-- Fallback do Motion quando Web Animations ou IntersectionObserver não existem.
+- Added cache management with SHA-256 fingerprints and asset manifests.
+- Added a versioned Service Worker with configurable strategies and cleanup.
+- Added a browser API for diagnostics, updates, registration, and invalidation.
+- Added immutable website URLs to prevent mixed releases on GitHub Pages.
+- Added live Motion and Cache indicators to the demo.
+- Added fallbacks when Web Animations or IntersectionObserver are unavailable.
 
 ## 0.2.0 - 2026-07-27
 
-- Motor UIKitPR Motion próprio, declarativo e sem dependências.
-- Presets, spring physics, timelines, stagger, scroll e in-view.
-- Triggers de mount, click, hover, tap e focus.
-- Eventos de ciclo de vida e API imperativa no navegador.
-- Loaders dots, bars, ring, pulse, orbit e wave.
-- Skeletons, cards de carregamento e page loader.
-- Runtime exportável pela CLI e distribuído dentro do wheel.
+- Added UIKitPR's dependency-free declarative Motion engine.
+- Added presets, spring physics, timelines, stagger, scroll, and in-view.
+- Added mount, click, hover, tap, and focus triggers.
+- Added lifecycle events and an imperative browser API.
+- Added dots, bars, ring, pulse, orbit, and wave loaders.
+- Added skeletons, loading cards, and a page loader.
+- Bundled an exportable runtime in the wheel and CLI.
 
 ## 0.1.0 - 2026-07-27
 
-- Primeira release pública.
-- Framework CSS utility-first com temas claro e escuro.
-- Componentes PyReact de layout, formulários, feedback, dados e navegação.
-- Temas customizados via tokens.
-- Exportação do stylesheet pela CLI.
-- Suporte a SSR e Python 3.9–3.14.
+- First public release.
+- Utility-first CSS framework with light and dark themes.
+- PyReact components for layout, forms, feedback, data, and navigation.
+- Token-based custom themes.
+- CLI stylesheet export.
+- SSR and Python 3.9–3.14 support.

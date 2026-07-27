@@ -1,19 +1,18 @@
 # UIKitPR Cache
 
-UIKitPR Cache é a camada de entrega e invalidação de assets do framework. Ela
-resolve o caso comum em que HTML, CSS e runtimes JavaScript publicados por uma
-CDN ou pelo GitHub Pages ficam em versões diferentes.
+UIKitPR Cache is the framework's asset delivery and invalidation layer. It
+prevents HTML, CSS, and JavaScript runtimes deployed through a CDN or GitHub
+Pages from being served from different releases.
 
-## O que ele entrega
+## Features
 
-- fingerprint SHA-256 no nome de cada asset;
-- manifesto JSON com caminho, hash, SRI, tamanho e MIME type;
-- Service Worker com cache versionado;
-- limpeza automática de caches antigos;
-- navegação `network-first`;
-- assets em `cache-first`, `network-first` ou `stale-while-revalidate`;
-- cliente web com atualização, diagnóstico e limpeza manual;
-- eventos `uipr:cache:*`.
+- SHA-256 fingerprints in asset filenames;
+- a JSON manifest with path, hash, SRI, size, and MIME type;
+- a versioned Service Worker and automatic stale-cache cleanup;
+- `network-first` navigation;
+- `cache-first`, `network-first`, or `stale-while-revalidate` assets;
+- a browser client for updates, diagnostics, and manual cleanup;
+- `uipr:cache:*` events.
 
 ## Build
 
@@ -35,13 +34,11 @@ styles = manager.add_file("app.css", "static/app.css")
 manager.finalize(precache=["./"])
 ```
 
-`app.path` e `styles.path` são os caminhos que devem entrar no HTML. O build
-gera `asset-manifest.json` e `sw.js` na raiz de saída.
+Use `app.path` and `styles.path` in the HTML. The build writes
+`asset-manifest.json` and `sw.js` at the output root. Asset names must be
+relative; absolute paths and `..` traversal are rejected.
 
-Nomes passados ao gerenciador são sempre relativos. Caminhos absolutos e
-travessias com `..` são rejeitados.
-
-## Integração PyReact
+## PyReact integration
 
 ```python
 from uikitpr import CacheRuntime, UIProvider
@@ -57,10 +54,10 @@ UIProvider(
 )
 ```
 
-Ou inclua `CacheRuntime(...)` diretamente. `with_cache` é opt-in porque cada
-aplicação precisa publicar seu próprio `sw.js` e manifesto.
+You may also include `CacheRuntime(...)` directly. Caching is opt-in because
+each application must publish its own Service Worker and manifest.
 
-## API do navegador
+## Browser API
 
 ```javascript
 await UIKitPRCache.register();
@@ -71,30 +68,19 @@ await UIKitPRCache.clear();
 await UIKitPRCache.clear({ unregister: true });
 ```
 
-O registro usa `updateViaCache: "none"` e inclui a versão na URL do Service
-Worker, evitando que o próprio script de atualização fique preso em cache.
+Registration uses `updateViaCache: "none"` and includes the version in the
+Service Worker URL so that the updater itself cannot become stuck in cache.
 
-## Eventos
+## Events
 
-- `uipr:cache:registering`
-- `uipr:cache:ready`
-- `uipr:cache:updatefound`
-- `uipr:cache:update`
-- `uipr:cache:installed`
-- `uipr:cache:controllerchange`
-- `uipr:cache:refreshed`
-- `uipr:cache:cleared`
-- `uipr:cache:error`
-- `uipr:cache:unsupported`
-
-Todos os eventos incluem `version` e `cacheVersion` em `event.detail`.
+Events include `registering`, `ready`, `updatefound`, `update`, `installed`,
+`controllerchange`, `refreshed`, `cleared`, `error`, and `unsupported`, all
+under the `uipr:cache:` prefix. Every event includes `version` and
+`cacheVersion` in `event.detail`.
 
 ## GitHub Pages
 
-Sirva `sw.js`, `asset-manifest.json`, `index.html` e a pasta `assets` no mesmo
-artefato. O Service Worker usa URLs relativas ao próprio escopo, portanto
-funciona tanto em domínio raiz quanto em Pages de projeto, como `/uikitpr/`.
-
-Use `network-first` para navegação. O HTML novo aponta para nomes com hash; os
-assets podem então usar `cache-first` sem risco de servir conteúdo de outra
-release.
+Serve `sw.js`, `asset-manifest.json`, `index.html`, and `assets/` in the same
+artifact. Relative Service Worker URLs support both root domains and project
+paths such as `/uikitpr/`. Use `network-first` for navigation; hashed assets can
+safely use `cache-first`.

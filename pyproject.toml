@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "uikitpr"
 version = "0.3.2"
-description = "Framework visual completo com componentes, motion e eventos para PyReact"
+description = "Complete visual framework with components, motion, and events for PyReact"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"
@@ -48,7 +48,7 @@ dev = [
 
 [project.urls]
 Homepage = "https://github.com/wanbnn/uikitpr"
-Documentation = "https://github.com/wanbnn/uikitpr#readme"
+Documentation = "https://uikitpr.readthedocs.io"
 Repository = "https://github.com/wanbnn/uikitpr"
 Issues = "https://github.com/wanbnn/uikitpr/issues"
 

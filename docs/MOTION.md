@@ -1,26 +1,20 @@
 # UIKitPR Motion
 
-UIKitPR Motion é o motor de animações web declarativo do ecossistema PyReact.
-O runtime usa a Web Animations API do navegador, mas orchestration, presets,
-spring physics, triggers, timelines, eventos e lifecycle pertencem ao UIKitPR.
+UIKitPR Motion is the declarative web-animation engine for PyReact. The runtime
+uses the browser Web Animations API, while orchestration, presets, spring
+physics, triggers, timelines, events, and lifecycle belong to UIKitPR.
 
-## Começando
+## Getting started
 
-`UIProvider` inclui CSS e runtime automaticamente:
+`UIProvider` automatically includes the CSS and runtime:
 
 ```python
 from uikitpr import Motion, UIProvider
 
-UIProvider(
-    Motion(
-        "Entra quando ficar visível",
-        preset="fade-up",
-        trigger="in-view",
-    )
-)
+UIProvider(Motion("Enters when visible", preset="fade-up", trigger="in-view"))
 ```
 
-Para servir o runtime externamente:
+To serve the runtime externally:
 
 ```bash
 uikitpr motion -o static/uikitpr-motion.js
@@ -30,7 +24,7 @@ uikitpr motion -o static/uikitpr-motion.js
 UIProvider(App(), motion_src="/static/uikitpr-motion.js")
 ```
 
-## Estados e interação
+## States and interaction
 
 ```python
 from uikitpr import Motion, Spring, Transition
@@ -49,31 +43,20 @@ Motion(
 )
 ```
 
-Triggers disponíveis:
-
-- `mount`
-- `in-view`
-- `click`
-- `scroll`, através da propriedade `scroll`
-- eventos imperativos pela API web
+Available triggers are `mount`, `in-view`, `click`, `scroll`, and imperative
+events from the web API.
 
 ## Presets
 
-`fade`, `fade-up`, `fade-down`, `slide-left`, `slide-right`, `scale`, `pop`,
-`blur`, `flip`, `shake`, `pulse` e `float`.
+Built-in presets include `fade`, `fade-up`, `fade-down`, `slide-left`,
+`slide-right`, `scale`, `pop`, `blur`, `flip`, `shake`, `pulse`, and `float`.
 
 ## Stagger
 
 ```python
 from uikitpr import MotionGroup
 
-MotionGroup(
-    Card(...),
-    Card(...),
-    Card(...),
-    preset="fade-up",
-    stagger=.08,
-)
+MotionGroup(Card(...), Card(...), Card(...), preset="fade-up", stagger=.08)
 ```
 
 ## Timeline
@@ -97,9 +80,9 @@ intro = Timeline(
 MotionTimeline(Page(), timeline=intro)
 ```
 
-## Runtime web e eventos
+## Web runtime and events
 
-O runtime fica disponível como `window.UIKitPRMotion`:
+The runtime is available as `window.UIKitPRMotion`:
 
 ```javascript
 UIKitPRMotion.play("hero", "pop");
@@ -111,36 +94,18 @@ UIKitPRMotion.timeline("intro");
 UIKitPRMotion.registerPreset("brand-pop", definition);
 ```
 
-Controles clicáveis podem ser totalmente declarativos, sem um listener
-JavaScript específico da aplicação:
+Clickable controls can remain fully declarative:
 
 ```python
 from uikitpr import Button, motion_control
 
-Button(
-    "Shake",
-    **motion_control(
-        "hero",
-        "shake",
-        transition={"duration": 620},
-    ),
-)
+Button("Shake", **motion_control("hero", "shake", transition={"duration": 620}))
 ```
 
-O runtime usa delegação de eventos, então controles adicionados depois pelo
-PyReact também funcionam automaticamente.
+Lifecycle events are `uipr:motion:start`, `update`, `finish`, `cancel`, `ready`,
+and `control`. Start, finish, and cancel details include `preset`, `animate`,
+`config`, and, when applicable, `animation`.
 
-Eventos DOM:
-
-- `uipr:motion:start`
-- `uipr:motion:update`
-- `uipr:motion:finish`
-- `uipr:motion:cancel`
-- `uipr:motion:ready`
-- `uipr:motion:control`
-
-Os eventos de início, conclusão e cancelamento incluem `preset`, `animate`,
-`config` e, quando aplicável, `animation` em `event.detail`.
-
-O runtime observa VNodes adicionados depois do carregamento, respeita
-`prefers-reduced-motion` e remove listeners e animações quando nós saem do DOM.
+The runtime uses event delegation, observes VNodes added after page load,
+respects `prefers-reduced-motion`, and cleans up listeners and animations when
+nodes leave the DOM.
