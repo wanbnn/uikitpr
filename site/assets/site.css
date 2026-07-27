@@ -12,7 +12,7 @@
 
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--uipr-background); }
-body, button, input, textarea, select { font-family: Manrope, var(--uipr-font); }
+body, button, input, textarea, select { font-family: "Inter Tight", var(--uipr-font); }
 code, pre { font-family: "DM Mono", ui-monospace, monospace; }
 a { color: inherit; }
 
