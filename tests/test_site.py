@@ -19,9 +19,10 @@ def test_static_site_build(tmp_path):
     assert html.startswith("<!doctype html>")
     assert "UIKitPR — Framework visual para PyReact" in html
     assert 'href="assets/uikitpr.css"' in html
+    assert 'src="assets/uikitpr-motion.js"' in html
     assert 'src="assets/app.js"' in html
     assert "prpm add uikitpr" in html
     assert (output / "assets" / "uikitpr.css").stat().st_size > 10_000
     assert (output / "assets" / "site.css").is_file()
+    assert (output / "assets" / "uikitpr-motion.js").stat().st_size > 10_000
     assert (output / ".nojekyll").is_file()
-

@@ -9,8 +9,8 @@
 [![PyReact](https://img.shields.io/badge/PyReact-1.0.5%2B-6D4AFF)](https://github.com/wanbnn/pyreact)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Componentes acessíveis, temas e classes utilitárias em um pacote Python,
-sem pipeline Node obrigatório.
+Componentes acessíveis, temas, classes utilitárias e um motor próprio de
+motion em um pacote Python, sem pipeline Node obrigatório.
 
 **Site:** <https://wanbnn.github.io/uikitpr/>
 
@@ -26,6 +26,8 @@ comuns. O UIKitPR leva as duas ideias ao ecossistema PyReact:
 - temas claro, escuro e customizados por CSS variables;
 - SSR, handlers e propriedades compatíveis com `h()` do PyReact;
 - CSS incluído no wheel e exportável pela CLI;
+- motion com spring, timelines, stagger, scroll, eventos e lifecycle;
+- loaders, skeletons e estados visuais prontos;
 - nenhuma dependência JavaScript ou etapa de compilação.
 
 ## Instalação com PRPM
@@ -137,6 +139,51 @@ brand = create_theme(
 UIProvider(AppContent(), theme=brand)
 ```
 
+## Motion, animações e eventos
+
+`UIProvider` inclui o runtime UIKitPR Motion por padrão:
+
+```python
+from uikitpr import Motion, Spring, Transition
+
+Motion(
+    Card(...),
+    preset="fade-up",
+    trigger="in-view",
+    while_hover={"transform": "translateY(-6px) scale(1.02)"},
+    while_tap={"transform": "scale(.97)"},
+    transition=Transition(
+        duration=.7,
+        spring=Spring(stiffness=170, damping=18),
+    ),
+)
+```
+
+O motor oferece:
+
+- animações de mount, in-view, click, hover, tap, focus e scroll;
+- presets, keyframes customizados e spring physics;
+- `MotionGroup` com stagger e `MotionTimeline` para orchestration;
+- lifecycle via eventos `uipr:motion:*`;
+- API imperativa `window.UIKitPRMotion`;
+- MutationObserver para VNodes adicionados dinamicamente;
+- suporte a `prefers-reduced-motion`.
+
+Consulte [docs/MOTION.md](docs/MOTION.md) para a API completa.
+
+## Loaders e estados visuais
+
+```python
+from uikitpr import OrbitLoader, Skeleton, SkeletonCard
+
+OrbitLoader(size="lg")
+Skeleton(lines=3)
+SkeletonCard()
+```
+
+Também estão disponíveis `DotsLoader`, `BarsLoader`, `RingLoader`,
+`PulseLoader`, `WaveLoader` e `PageLoader`.
+
 ## CSS externo e CSP
 
 Por padrão, `UIProvider` inclui um `<link>` com o stylesheet em uma `data: URL`.
@@ -146,6 +193,7 @@ Esse formato evita o escaping aplicado pelo SSR do PyReact a filhos de
 ```bash
 uikitpr css -o static/uikitpr.css
 uikitpr css -o static/uikitpr.min.css --minify
+uikitpr motion -o static/uikitpr-motion.js
 ```
 
 Então use:

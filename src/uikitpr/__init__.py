@@ -33,6 +33,37 @@ from .components import (
     Textarea,
 )
 from .core import cx, utility
+from .loaders import (
+    BarsLoader,
+    DotsLoader,
+    OrbitLoader,
+    PageLoader,
+    PulseLoader,
+    RingLoader,
+    Skeleton,
+    SkeletonCard,
+    WaveLoader,
+)
+from .motion import (
+    MOTION_CANCEL,
+    MOTION_FINISH,
+    MOTION_START,
+    MOTION_UPDATE,
+    PRESETS,
+    Motion,
+    MotionGroup,
+    MotionRuntime,
+    MotionTimeline,
+    Spring,
+    Timeline,
+    TimelineStep,
+    Transition,
+    motion_event,
+    motion_script,
+    motion_script_data_url,
+    spring_keyframes,
+    stagger,
+)
 from .theme import (
     Styles,
     Theme,
@@ -42,14 +73,19 @@ from .theme import (
     stylesheet_data_url,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
-    "Alert", "Avatar", "Badge", "Box", "Breadcrumb", "Button", "Card",
+    "Alert", "Avatar", "Badge", "BarsLoader", "Box", "Breadcrumb", "Button", "Card",
     "CardBody", "CardFooter", "CardHeader", "Checkbox", "Container",
-    "Divider", "Grid", "Heading", "IconButton", "Input", "Modal", "Navbar",
+    "Divider", "DotsLoader", "Grid", "Heading", "IconButton", "Input", "Modal",
+    "MOTION_CANCEL", "MOTION_FINISH", "MOTION_START", "MOTION_UPDATE", "Motion",
+    "MotionGroup", "MotionRuntime", "MotionTimeline", "Navbar",
     "NavbarBrand", "NavbarContent", "Progress", "Select", "Spinner", "Stack",
-    "Styles", "Switch", "Table", "TableContainer", "Text", "Textarea",
-    "Theme", "UIProvider", "create_theme", "cx", "stylesheet",
-    "stylesheet_data_url", "utility",
+    "Styles", "Switch", "Table", "TableContainer", "Text", "Textarea", "Theme",
+    "Transition", "Timeline", "TimelineStep", "Spring", "PRESETS", "OrbitLoader",
+    "PageLoader", "PulseLoader", "RingLoader", "Skeleton", "SkeletonCard",
+    "UIProvider", "WaveLoader", "create_theme", "cx", "motion_event",
+    "motion_script", "motion_script_data_url", "spring_keyframes", "stagger",
+    "stylesheet", "stylesheet_data_url", "utility",
 ]

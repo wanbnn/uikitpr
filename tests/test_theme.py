@@ -17,7 +17,13 @@ def test_minified_stylesheet_is_smaller():
 def test_custom_theme_is_rendered_in_provider():
     theme = create_theme("brand", primary="#ff006e", radius="1rem")
     html = render_to_static_markup(
-        UIProvider("Aplicação", theme=theme, with_styles=False, full_height=True)
+        UIProvider(
+            "Aplicação",
+            theme=theme,
+            with_styles=False,
+            with_motion=False,
+            full_height=True,
+        )
     )
     assert 'data-uipr-theme="brand"' in html
     assert "--uipr-primary:#ff006e" in html
@@ -29,3 +35,8 @@ def test_default_styles_are_ssr_safe_data_url():
     assert '<link rel="stylesheet"' in html
     assert 'href="data:text/css;base64,' in html
     assert "&quot;" not in html
+
+
+def test_provider_includes_motion_runtime_by_default():
+    html = render_to_static_markup(UIProvider("Aplicação", with_styles=False))
+    assert 'data-uipr-motion-runtime="true"' in html

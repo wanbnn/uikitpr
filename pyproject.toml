@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "uikitpr"
-version = "0.1.0"
-description = "Framework visual utility-first e biblioteca de componentes para PyReact"
+version = "0.2.0"
+description = "Framework visual completo com componentes, motion e eventos para PyReact"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"
@@ -62,7 +62,7 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.setuptools.package-data]
-uikitpr = ["assets/*.css", "py.typed"]
+uikitpr = ["assets/*.css", "assets/*.js", "py.typed"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

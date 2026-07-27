@@ -32,9 +32,28 @@
     });
   });
 
+  document.querySelectorAll("[data-motion-preset]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!window.UIKitPRMotion) return;
+      window.UIKitPRMotion.play("motion-lab-card", button.dataset.motionPreset, {
+        duration: button.dataset.motionPreset === "shake" ? 620 : 720,
+        easing: "cubic-bezier(.22,1,.36,1)",
+      });
+    });
+  });
+
+  const motionEvent = document.querySelector("[data-motion-event]");
+  ["uipr:motion:start", "uipr:motion:finish", "uipr:motion:cancel"].forEach((name) => {
+    document.addEventListener(name, (event) => {
+      if (!motionEvent || !event.target.closest?.(".section-motion")) return;
+      motionEvent.textContent = name;
+      motionEvent.parentElement.classList.add("event-active");
+      window.setTimeout(() => motionEvent.parentElement.classList.remove("event-active"), 420);
+    });
+  });
+
   const header = document.querySelector(".site-header");
   const updateHeader = () => header.classList.toggle("header-scrolled", window.scrollY > 16);
   updateHeader();
   window.addEventListener("scroll", updateHeader, { passive: true });
 })();
-

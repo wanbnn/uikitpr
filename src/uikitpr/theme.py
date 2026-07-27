@@ -73,6 +73,8 @@ def Styles(props: Any = None, *children: Any, **kwargs: Any):
 
 def UIProvider(props: Any = None, *children: Any, **kwargs: Any):
     """Raiz visual com tema, modo de cor e stylesheet opcionais."""
+    from .motion import MotionRuntime
+
     p = component_props(props, children, **kwargs)
     theme = p.get("theme", "light")
     theme_name = theme.name if isinstance(theme, Theme) else str(theme)
@@ -80,8 +82,16 @@ def UIProvider(props: Any = None, *children: Any, **kwargs: Any):
     content = children_of(p)
     if p.get("with_styles", True):
         content.insert(0, Styles({"minified": p.get("minified", False)}))
+    if p.get("with_motion", True):
+        motion_props = {"minified": p.get("minified", False)}
+        if p.get("motion_src"):
+            motion_props["src"] = p["motion_src"]
+        content.insert(1 if p.get("with_styles", True) else 0, MotionRuntime(motion_props))
     if isinstance(theme, Theme) and theme.tokens:
-        content.insert(1 if p.get("with_styles", True) else 0, h("style", None, theme.css()))
+        insert_at = int(bool(p.get("with_styles", True))) + int(
+            bool(p.get("with_motion", True))
+        )
+        content.insert(insert_at, h("style", None, theme.css()))
     root_props = dom_props(
         p,
         base_class=cx("uipr-root", p.get("full_height") and "min-h-screen"),
@@ -89,6 +99,8 @@ def UIProvider(props: Any = None, *children: Any, **kwargs: Any):
             "theme",
             "color_mode",
             "with_styles",
+            "with_motion",
+            "motion_src",
             "minified",
             "full_height",
         },

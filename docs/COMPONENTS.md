@@ -18,6 +18,12 @@ HTML. Os valores abaixo são específicos do UIKitPR.
 | `Progress` | `value`, `label` |
 | `Modal` | `open`, `title` |
 | `UIProvider` | `theme`, `color_mode`, `with_styles`, `full_height` |
+| `Motion` | `preset`, `trigger`, `transition`, `while_hover`, `while_tap` |
+| `MotionGroup` | `preset`, `stagger`, `delay`, `trigger` |
+| `MotionTimeline` | `timeline=Timeline(...)` |
+| Loaders | `size`, `tone`, `label` |
+| `Skeleton` | `variant`, `lines` |
+| `PageLoader` | `loader`, `overlay`, `label` |
 
 ## Composição
 
@@ -45,4 +51,3 @@ h(Button, {"children": "Salvar", "variant": "primary"})
 - `Progress` expõe todos os atributos ARIA de faixa.
 - `Modal` usa `role="dialog"` e `aria-modal`.
 - campos com `error` recebem `aria-invalid`.
-

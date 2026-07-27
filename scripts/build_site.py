@@ -18,6 +18,7 @@ from uikitpr import (  # noqa: E402
     Alert,
     Avatar,
     Badge,
+    BarsLoader,
     Box,
     Button,
     Card,
@@ -29,12 +30,24 @@ from uikitpr import (  # noqa: E402
     Grid,
     Heading,
     Input,
+    Motion,
+    MotionGroup,
+    MotionRuntime,
+    OrbitLoader,
+    PulseLoader,
     Progress,
+    RingLoader,
+    Skeleton,
+    SkeletonCard,
+    Spring,
     Stack,
     Switch,
     Text,
     Textarea,
+    Transition,
+    WaveLoader,
     cx,
+    motion_script,
     stylesheet,
 )
 
@@ -332,6 +345,178 @@ def UtilitiesSection():
     )
 
 
+def MotionSection():
+    return h(
+        "section",
+        {"className": "section section-motion", "id": "motion"},
+        Container(
+            Stack(
+                Box(
+                    Badge(Icon("spark"), "UIKitPR Motion", tone="primary", pill=True),
+                    Heading(
+                        "Movimento também é parte da interface.",
+                        level=2,
+                        size="4xl",
+                        class_name="section-title",
+                    ),
+                    Text(
+                        "Um runtime próprio para spring physics, timelines, scroll, in-view, stagger e eventos — distribuído no mesmo wheel.",
+                        tone="muted",
+                        size="lg",
+                        class_name="section-lead",
+                    ),
+                    class_name="section-heading",
+                ),
+                Grid(
+                    Stack(
+                        h(
+                            "div",
+                            {"className": "motion-stage"},
+                            h("span", {"className": "motion-grid"}),
+                            Motion(
+                                h(
+                                    "div",
+                                    {"className": "motion-core"},
+                                    h("span", {"className": "motion-core-ring"}),
+                                    h("strong", None, "M"),
+                                ),
+                                preset="pop",
+                                trigger="in-view",
+                                transition=Transition(
+                                    duration=0.8,
+                                    spring=Spring(stiffness=155, damping=14),
+                                ),
+                                while_hover={"transform": "scale(1.08) rotate(5deg)"},
+                                while_tap={"transform": "scale(.92)"},
+                                motion_id="motion-lab-card",
+                                class_name="motion-lab-target",
+                            ),
+                            Motion(
+                                Badge("spring", tone="success", pill=True),
+                                preset="slide-right",
+                                trigger="in-view",
+                                transition=Transition(delay=0.15),
+                                class_name="motion-float-label label-a",
+                            ),
+                            Motion(
+                                Badge("timeline", tone="info", pill=True),
+                                preset="slide-left",
+                                trigger="in-view",
+                                transition=Transition(delay=0.25),
+                                class_name="motion-float-label label-b",
+                            ),
+                            Motion(
+                                Badge("in-view", tone="warning", pill=True),
+                                preset="fade-up",
+                                trigger="in-view",
+                                transition=Transition(delay=0.35),
+                                class_name="motion-float-label label-c",
+                            ),
+                            h(
+                                "div",
+                                {"className": "motion-event-monitor"},
+                                h("span", {"className": "event-light"}),
+                                h("code", {"data-motion-event": "true"}, "uipr:motion:ready"),
+                            ),
+                        ),
+                        Stack(
+                            Text("Experimente um preset", tone="muted", size="sm", weight="semibold"),
+                            Stack(
+                                Button("Pop", size="sm", **{"data-motion-preset": "pop"}),
+                                Button("Shake", variant="outline", size="sm", **{"data-motion-preset": "shake"}),
+                                Button("Flip", variant="outline", size="sm", **{"data-motion-preset": "flip"}),
+                                Button("Blur", variant="ghost", size="sm", **{"data-motion-preset": "blur"}),
+                                direction="row",
+                                gap=2,
+                                wrap=True,
+                                class_name="motion-controls",
+                            ),
+                            gap=3,
+                        ),
+                        gap=4,
+                    ),
+                    Stack(
+                        Card(
+                            CardBody(
+                                Stack(
+                                    Badge("Declarativo", tone="info", pill=True),
+                                    Heading("Motion é um VNode.", level=3, size="2xl"),
+                                    Text(
+                                        "Defina estado inicial, destino, trigger e física diretamente em Python.",
+                                        tone="muted",
+                                    ),
+                                    CodeBlock(
+                                        'Motion(Card(...), preset="fade-up", trigger="in-view")',
+                                        "motion.py",
+                                    ),
+                                    Stack(
+                                        Badge("mount", tone="primary"),
+                                        Badge("hover", tone="success"),
+                                        Badge("tap", tone="warning"),
+                                        Badge("scroll", tone="info"),
+                                        Badge("custom events", tone="neutral"),
+                                        direction="row",
+                                        gap=2,
+                                        wrap=True,
+                                    ),
+                                    gap=4,
+                                )
+                            ),
+                            class_name="motion-code-card",
+                        ),
+                        Grid(
+                            Box(
+                                Heading("60", level=3, size="3xl"),
+                                Text("amostras spring", tone="muted", size="xs"),
+                                class_name="motion-stat",
+                            ),
+                            Box(
+                                Heading("0", level=3, size="3xl"),
+                                Text("dependências JS", tone="muted", size="xs"),
+                                class_name="motion-stat",
+                            ),
+                            cols=2,
+                            gap=3,
+                        ),
+                        gap=4,
+                    ),
+                    cols=2,
+                    gap=7,
+                    class_name="motion-layout",
+                ),
+                Box(
+                    Stack(
+                        Box(
+                            Heading("Loaders & estados", level=3, size="2xl"),
+                            Text(
+                                "Feedback visual pronto para qualquer contexto.",
+                                tone="muted",
+                            ),
+                        ),
+                        Badge("reduced-motion ready", tone="success", pill=True),
+                        direction="row",
+                        justify="between",
+                        align="start",
+                    ),
+                    MotionGroup(
+                        Box(OrbitLoader(size="lg"), Text("Orbit", tone="muted", size="sm"), class_name="loader-demo"),
+                        Box(RingLoader(size="lg", tone="info"), Text("Ring", tone="muted", size="sm"), class_name="loader-demo"),
+                        Box(BarsLoader(size="lg", tone="success"), Text("Bars", tone="muted", size="sm"), class_name="loader-demo"),
+                        Box(PulseLoader(size="lg", tone="danger"), Text("Pulse", tone="muted", size="sm"), class_name="loader-demo"),
+                        Box(WaveLoader(size="lg", tone="warning"), Text("Wave", tone="muted", size="sm"), class_name="loader-demo"),
+                        SkeletonCard(class_name="loader-skeleton-card"),
+                        preset="fade-up",
+                        stagger=0.08,
+                        class_name="loader-gallery",
+                    ),
+                    class_name="loader-panel",
+                ),
+                gap=10,
+            )
+        ),
+    )
+
+
 def ThemeSection():
     return h(
         "section",
@@ -408,6 +593,7 @@ def App():
                     {"className": "site-nav", "aria-label": "Navegação principal"},
                     h("a", {"href": "#features"}, "Recursos"),
                     h("a", {"href": "#components"}, "Componentes"),
+                    h("a", {"href": "#motion"}, "Motion"),
                     h("a", {"href": "#utilities"}, "Utilitários"),
                     h("a", {"href": "#themes"}, "Temas"),
                 ),
@@ -542,6 +728,7 @@ def App():
                 ),
             ),
             ComponentsSection(),
+            MotionSection(),
             UtilitiesSection(),
             ThemeSection(),
             h(
@@ -605,6 +792,7 @@ def App():
             ),
         ),
         h("div", {"className": "toast", "role": "status", "aria-live": "polite"}),
+        MotionRuntime(src="assets/uikitpr-motion.js"),
         h("script", {"src": "assets/app.js", "defer": True}),
     )
 
@@ -652,6 +840,7 @@ def build(output: Path) -> Path:
         encoding="utf-8",
     )
     (assets / "uikitpr.css").write_text(stylesheet(), encoding="utf-8")
+    (assets / "uikitpr-motion.js").write_text(motion_script(), encoding="utf-8")
     shutil.copy2(ROOT / "site" / "assets" / "site.css", assets / "site.css")
     shutil.copy2(ROOT / "site" / "assets" / "app.js", assets / "app.js")
     (output / ".nojekyll").write_text("", encoding="utf-8")
