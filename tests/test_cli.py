@@ -14,3 +14,11 @@ def test_cli_exports_motion_runtime(tmp_path):
     source = destination.read_text(encoding="utf-8")
     assert "UIKitPRMotion" in source
     assert "MutationObserver" in source
+
+
+def test_cli_exports_cache_runtime(tmp_path):
+    destination = tmp_path / "assets" / "cache.js"
+    assert main(["cache", "-o", str(destination), "--minify"]) == 0
+    source = destination.read_text(encoding="utf-8")
+    assert "UIKitPRCache" in source
+    assert "serviceWorker" in source

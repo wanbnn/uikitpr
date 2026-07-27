@@ -2,6 +2,15 @@
 
 Todas as mudanças relevantes do UIKitPR serão documentadas aqui.
 
+## 0.3.0 - 2026-07-27
+
+- Gerenciador de cache integrado com fingerprints SHA-256 e manifesto de assets.
+- Service Worker versionado com estratégias configuráveis e limpeza automática.
+- API web de diagnóstico, atualização, registro e invalidação.
+- URLs imutáveis no site oficial para impedir mistura de releases no GitHub Pages.
+- Indicadores ao vivo de Motion e Cache na demonstração.
+- Fallback do Motion quando Web Animations ou IntersectionObserver não existem.
+
 ## 0.2.0 - 2026-07-27
 
 - Motor UIKitPR Motion próprio, declarativo e sem dependências.

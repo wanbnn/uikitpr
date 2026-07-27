@@ -73,6 +73,7 @@ def Styles(props: Any = None, *children: Any, **kwargs: Any):
 
 def UIProvider(props: Any = None, *children: Any, **kwargs: Any):
     """Raiz visual com tema, modo de cor e stylesheet opcionais."""
+    from .cache import CacheRuntime
     from .motion import MotionRuntime
 
     p = component_props(props, children, **kwargs)
@@ -87,10 +88,22 @@ def UIProvider(props: Any = None, *children: Any, **kwargs: Any):
         if p.get("motion_src"):
             motion_props["src"] = p["motion_src"]
         content.insert(1 if p.get("with_styles", True) else 0, MotionRuntime(motion_props))
-    if isinstance(theme, Theme) and theme.tokens:
+    if p.get("with_cache", False):
+        cache_props = {
+            "src": p.get("cache_src"),
+            "service_worker": p.get("service_worker", "sw.js"),
+            "manifest": p.get("cache_manifest", "asset-manifest.json"),
+            "version": p.get("cache_version", "1"),
+            "cache_name": p.get("cache_name", "uikitpr"),
+        }
         insert_at = int(bool(p.get("with_styles", True))) + int(
             bool(p.get("with_motion", True))
         )
+        content.insert(insert_at, CacheRuntime(cache_props))
+    if isinstance(theme, Theme) and theme.tokens:
+        insert_at = int(bool(p.get("with_styles", True))) + int(
+            bool(p.get("with_motion", True))
+        ) + int(bool(p.get("with_cache", False)))
         content.insert(insert_at, h("style", None, theme.css()))
     root_props = dom_props(
         p,
@@ -101,6 +114,12 @@ def UIProvider(props: Any = None, *children: Any, **kwargs: Any):
             "with_styles",
             "with_motion",
             "motion_src",
+            "with_cache",
+            "cache_src",
+            "service_worker",
+            "cache_manifest",
+            "cache_version",
+            "cache_name",
             "minified",
             "full_height",
         },

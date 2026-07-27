@@ -409,10 +409,17 @@ a { color: inherit; }
 .motion-float-label.label-a { top: 18%; left: 10%; }
 .motion-float-label.label-b { top: 24%; right: 8%; animation-delay: -.8s; }
 .motion-float-label.label-c { right: 15%; bottom: 18%; animation-delay: -1.5s; }
-.motion-event-monitor {
+.runtime-monitors {
   position: absolute;
   left: 1rem;
   bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  z-index: 6;
+}
+.motion-event-monitor,
+.cache-event-monitor {
   display: inline-flex;
   align-items: center;
   gap: .55rem;
@@ -432,8 +439,10 @@ a { color: inherit; }
   background: var(--uipr-success);
   box-shadow: 0 0 .6rem var(--uipr-success);
 }
-.motion-event-monitor.event-active { color: var(--uipr-primary); border-color: var(--uipr-primary); }
-.motion-event-monitor.event-active .event-light { animation: uipr-utility-pulse .35s ease; }
+.motion-event-monitor.event-active,
+.cache-event-monitor.event-active { color: var(--uipr-primary); border-color: var(--uipr-primary); }
+.motion-event-monitor.event-active .event-light,
+.cache-event-monitor.event-active .event-light { animation: uipr-utility-pulse .35s ease; }
 .motion-controls .uipr-button { min-width: 4.5rem; }
 .motion-code-card { height: 100%; box-shadow: var(--uipr-shadow); }
 .motion-stat {

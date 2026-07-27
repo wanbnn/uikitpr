@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import shutil
 import sys
 from pathlib import Path
 
@@ -21,6 +20,9 @@ from uikitpr import (  # noqa: E402
     BarsLoader,
     Box,
     Button,
+    CacheManager,
+    CachePolicy,
+    CacheRuntime,
     Card,
     CardBody,
     CardFooter,
@@ -46,6 +48,8 @@ from uikitpr import (  # noqa: E402
     Textarea,
     Transition,
     WaveLoader,
+    __version__ as UIKITPR_VERSION,
+    cache_script,
     cx,
     motion_script,
     stylesheet,
@@ -414,9 +418,19 @@ def MotionSection():
                             ),
                             h(
                                 "div",
-                                {"className": "motion-event-monitor"},
-                                h("span", {"className": "event-light"}),
-                                h("code", {"data-motion-event": "true"}, "uipr:motion:ready"),
+                                {"className": "runtime-monitors"},
+                                h(
+                                    "div",
+                                    {"className": "motion-event-monitor"},
+                                    h("span", {"className": "event-light"}),
+                                    h("code", {"data-motion-event": "true"}, "motion: carregando"),
+                                ),
+                                h(
+                                    "div",
+                                    {"className": "cache-event-monitor"},
+                                    h("span", {"className": "event-light"}),
+                                    h("code", {"data-cache-status": "true"}, "cache: verificando"),
+                                ),
                             ),
                         ),
                         Stack(
@@ -426,6 +440,12 @@ def MotionSection():
                                 Button("Shake", variant="outline", size="sm", **{"data-motion-preset": "shake"}),
                                 Button("Flip", variant="outline", size="sm", **{"data-motion-preset": "flip"}),
                                 Button("Blur", variant="ghost", size="sm", **{"data-motion-preset": "blur"}),
+                                Button(
+                                    "Atualizar assets",
+                                    variant="ghost",
+                                    size="sm",
+                                    **{"data-cache-refresh": "true"},
+                                ),
                                 direction="row",
                                 gap=2,
                                 wrap=True,
@@ -579,7 +599,7 @@ def ThemeSection():
     )
 
 
-def App():
+def App(asset_urls: dict[str, str], cache_version: str):
     return h(
         "div",
         {"className": "uipr-root site-root", "data-uipr-theme": "light", "data-uipr-color-mode": "light", "id": "top"},
@@ -792,12 +812,19 @@ def App():
             ),
         ),
         h("div", {"className": "toast", "role": "status", "aria-live": "polite"}),
-        MotionRuntime(src="assets/uikitpr-motion.js"),
-        h("script", {"src": "assets/app.js", "defer": True}),
+        MotionRuntime(src=asset_urls["uikitpr-motion.js"]),
+        CacheRuntime(
+            src=asset_urls["uikitpr-cache.js"],
+            service_worker="sw.js",
+            manifest="asset-manifest.json",
+            version=cache_version,
+            cache_name="uikitpr-site",
+        ),
+        h("script", {"src": asset_urls["app.js"], "defer": True}),
     )
 
 
-def Document():
+def Document(asset_urls: dict[str, str], cache_version: str):
     return h(
         "html",
         {"lang": "pt-BR"},
@@ -807,6 +834,7 @@ def Document():
             h("meta", {"charset": "utf-8"}),
             h("meta", {"name": "viewport", "content": "width=device-width, initial-scale=1"}),
             h("meta", {"name": "theme-color", "content": "#0d0b16"}),
+            h("meta", {"name": "uikitpr-cache-version", "content": cache_version}),
             h(
                 "meta",
                 {
@@ -824,25 +852,44 @@ def Document():
                     "rel": "stylesheet",
                 },
             ),
-            h("link", {"rel": "stylesheet", "href": "assets/uikitpr.css"}),
-            h("link", {"rel": "stylesheet", "href": "assets/site.css"}),
+            h("link", {"rel": "stylesheet", "href": asset_urls["uikitpr.css"]}),
+            h("link", {"rel": "stylesheet", "href": asset_urls["site.css"]}),
         ),
-        h("body", None, App()),
+        h("body", None, App(asset_urls, cache_version)),
     )
 
 
 def build(output: Path) -> Path:
     output = output.resolve()
-    assets = output / "assets"
-    assets.mkdir(parents=True, exist_ok=True)
+    cache = CacheManager(
+        output,
+        policy=CachePolicy(
+            name="uikitpr-site",
+            version=UIKITPR_VERSION,
+            strategy="cache-first",
+            navigation_strategy="network-first",
+        ),
+    )
+    cache.add_text("uikitpr.css", stylesheet(), content_type="text/css")
+    cache.add_text(
+        "uikitpr-motion.js",
+        motion_script(),
+        content_type="text/javascript",
+    )
+    cache.add_text(
+        "uikitpr-cache.js",
+        cache_script(),
+        content_type="text/javascript",
+    )
+    cache.add_file("site.css", ROOT / "site" / "assets" / "site.css")
+    cache.add_file("app.js", ROOT / "site" / "assets" / "app.js")
+    asset_urls = {name: asset.path for name, asset in cache.assets.items()}
     (output / "index.html").write_text(
-        "<!doctype html>\n" + render_to_static_markup(Document()),
+        "<!doctype html>\n"
+        + render_to_static_markup(Document(asset_urls, UIKITPR_VERSION)),
         encoding="utf-8",
     )
-    (assets / "uikitpr.css").write_text(stylesheet(), encoding="utf-8")
-    (assets / "uikitpr-motion.js").write_text(motion_script(), encoding="utf-8")
-    shutil.copy2(ROOT / "site" / "assets" / "site.css", assets / "site.css")
-    shutil.copy2(ROOT / "site" / "assets" / "app.js", assets / "app.js")
+    cache.finalize(precache=["./"])
     (output / ".nojekyll").write_text("", encoding="utf-8")
     return output
 

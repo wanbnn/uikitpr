@@ -40,3 +40,20 @@ def test_default_styles_are_ssr_safe_data_url():
 def test_provider_includes_motion_runtime_by_default():
     html = render_to_static_markup(UIProvider("Aplicação", with_styles=False))
     assert 'data-uipr-motion-runtime="true"' in html
+
+
+def test_provider_can_include_configured_cache_runtime():
+    html = render_to_static_markup(
+        UIProvider(
+            "Aplicação",
+            with_styles=False,
+            with_motion=False,
+            with_cache=True,
+            cache_src="/cache.js",
+            cache_name="site",
+            cache_version="42",
+        )
+    )
+    assert 'data-uipr-cache-runtime="true"' in html
+    assert 'data-cache-name="site"' in html
+    assert 'data-version="42"' in html

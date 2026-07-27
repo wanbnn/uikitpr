@@ -1,5 +1,12 @@
 """UIKitPR — framework visual utility-first para PyReact."""
 
+from .cache import (
+    CachedAsset,
+    CacheManager,
+    CachePolicy,
+    CacheRuntime,
+    cache_script,
+)
 from .components import (
     Alert,
     Avatar,
@@ -73,10 +80,11 @@ from .theme import (
     stylesheet_data_url,
 )
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 __all__ = [
-    "Alert", "Avatar", "Badge", "BarsLoader", "Box", "Breadcrumb", "Button", "Card",
+    "Alert", "Avatar", "Badge", "BarsLoader", "Box", "Breadcrumb", "Button",
+    "CacheManager", "CachePolicy", "CacheRuntime", "CachedAsset", "Card",
     "CardBody", "CardFooter", "CardHeader", "Checkbox", "Container",
     "Divider", "DotsLoader", "Grid", "Heading", "IconButton", "Input", "Modal",
     "MOTION_CANCEL", "MOTION_FINISH", "MOTION_START", "MOTION_UPDATE", "Motion",
@@ -85,7 +93,7 @@ __all__ = [
     "Styles", "Switch", "Table", "TableContainer", "Text", "Textarea", "Theme",
     "Transition", "Timeline", "TimelineStep", "Spring", "PRESETS", "OrbitLoader",
     "PageLoader", "PulseLoader", "RingLoader", "Skeleton", "SkeletonCard",
-    "UIProvider", "WaveLoader", "create_theme", "cx", "motion_event",
+    "UIProvider", "WaveLoader", "cache_script", "create_theme", "cx", "motion_event",
     "motion_script", "motion_script_data_url", "spring_keyframes", "stagger",
     "stylesheet", "stylesheet_data_url", "utility",
 ]

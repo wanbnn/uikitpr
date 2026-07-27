@@ -1,11 +1,11 @@
 /**
- * UIKitPR Motion 0.2.0
+ * UIKitPR Motion 0.3.0
  * Runtime visual, declarativo e sem dependências.
  */
 (() => {
   "use strict";
 
-  const VERSION = "0.2.0";
+  const VERSION = "0.3.0";
   const MOTION_SELECTOR = "[data-uipr-motion]";
   const GROUP_SELECTOR = "[data-uipr-motion-group]";
   const TIMELINE_SELECTOR = "[data-uipr-timeline]";
@@ -197,15 +197,24 @@
   };
 
   const play = (element, override, transitionOverride = {}) => {
-    if (!element || typeof element.animate !== "function") return null;
+    if (!element) return null;
     const state = states.get(element) || initMotion(element);
     if (!state) return null;
     const config = state.config;
     const transition = { ...(config.transition || {}), ...transitionOverride };
     const frames = framesFor(config, override);
-    if (media.matches) {
+    if (media.matches || typeof element.animate !== "function") {
+      emit(element, "uipr:motion:start", {
+        config,
+        reducedMotion: media.matches,
+        fallback: typeof element.animate !== "function",
+      });
       Object.assign(element.style, frames[frames.length - 1] || {});
-      emit(element, "uipr:motion:finish", { reducedMotion: true });
+      emit(element, "uipr:motion:finish", {
+        config,
+        reducedMotion: media.matches,
+        fallback: typeof element.animate !== "function",
+      });
       return null;
     }
     state.animations.forEach((animation) => animation.cancel());
@@ -240,6 +249,10 @@
   };
 
   const setupInView = (element, state) => {
+    if (typeof IntersectionObserver !== "function") {
+      requestAnimationFrame(() => play(element));
+      return;
+    }
     const options = state.config.inView || {};
     const observer = new IntersectionObserver(
       (entries) => {
@@ -355,8 +368,17 @@
 
   const resolveTargets = (target) => {
     if (!target) return [];
-    const byMotionId = document.querySelectorAll(`[data-uipr-motion-id="${String(target).replaceAll('"', '\\"')}"]`);
-    return byMotionId.length ? [...byMotionId] : [...document.querySelectorAll(target)];
+    const value = String(target);
+    const escaped = window.CSS?.escape
+      ? window.CSS.escape(value)
+      : value.replaceAll("\\", "\\\\").replaceAll('"', '\\"');
+    const byMotionId = document.querySelectorAll(`[data-uipr-motion-id="${escaped}"]`);
+    if (byMotionId.length) return [...byMotionId];
+    try {
+      return [...document.querySelectorAll(value)];
+    } catch {
+      return [];
+    }
   };
 
   const runTimeline = async (definition) => {

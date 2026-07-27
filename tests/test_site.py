@@ -1,5 +1,7 @@
 import importlib.util
+import json
 from pathlib import Path
+import re
 
 
 def load_builder():
@@ -18,11 +20,18 @@ def test_static_site_build(tmp_path):
 
     assert html.startswith("<!doctype html>")
     assert "UIKitPR — Framework visual para PyReact" in html
-    assert 'href="assets/uikitpr.css"' in html
-    assert 'src="assets/uikitpr-motion.js"' in html
-    assert 'src="assets/app.js"' in html
+    assert re.search(r'href="assets/uikitpr\.[a-f0-9]{12}\.css"', html)
+    assert re.search(r'src="assets/uikitpr-motion\.[a-f0-9]{12}\.js"', html)
+    assert re.search(r'src="assets/uikitpr-cache\.[a-f0-9]{12}\.js"', html)
+    assert re.search(r'src="assets/app\.[a-f0-9]{12}\.js"', html)
     assert "prpm add uikitpr" in html
-    assert (output / "assets" / "uikitpr.css").stat().st_size > 10_000
-    assert (output / "assets" / "site.css").is_file()
-    assert (output / "assets" / "uikitpr-motion.js").stat().st_size > 10_000
+    manifest = json.loads(
+        (output / "asset-manifest.json").read_text(encoding="utf-8")
+    )
+    assert manifest["cache"]["id"] == "uikitpr-site-0.3.0"
+    assert (output / manifest["assets"]["uikitpr.css"]["path"]).stat().st_size > 10_000
+    assert (output / manifest["assets"]["site.css"]["path"]).is_file()
+    assert (output / manifest["assets"]["uikitpr-motion.js"]["path"]).stat().st_size > 10_000
+    assert (output / "sw.js").is_file()
+    assert "network-first" in (output / "sw.js").read_text(encoding="utf-8")
     assert (output / ".nojekyll").is_file()

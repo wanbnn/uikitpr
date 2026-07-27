@@ -27,6 +27,7 @@ comuns. O UIKitPR leva as duas ideias ao ecossistema PyReact:
 - SSR, handlers e propriedades compatíveis com `h()` do PyReact;
 - CSS incluído no wheel e exportável pela CLI;
 - motion com spring, timelines, stagger, scroll, eventos e lifecycle;
+- cache web com fingerprint, manifesto, atualização e Service Worker;
 - loaders, skeletons e estados visuais prontos;
 - nenhuma dependência JavaScript ou etapa de compilação.
 
@@ -171,6 +172,45 @@ O motor oferece:
 
 Consulte [docs/MOTION.md](docs/MOTION.md) para a API completa.
 
+## Cache web e deploy sem assets antigos
+
+O `CacheManager` escreve assets com fingerprint SHA-256, um manifesto
+inspecionável e um Service Worker versionado. Assim, cada alteração ganha uma
+URL nova e versões antigas são removidas na ativação:
+
+```python
+from pathlib import Path
+from uikitpr import CacheManager, CachePolicy, cache_script, motion_script, stylesheet
+
+cache = CacheManager(
+    Path("public"),
+    policy=CachePolicy(name="my-app", version="2026.07.27"),
+)
+css = cache.add_text("uikitpr.css", stylesheet())
+motion = cache.add_text("uikitpr-motion.js", motion_script())
+runtime = cache.add_text("uikitpr-cache.js", cache_script())
+cache.finalize(precache=["./"])
+
+print(css.path, motion.path, runtime.path)
+```
+
+Para registrar o Service Worker em uma árvore PyReact:
+
+```python
+from uikitpr import CacheRuntime
+
+CacheRuntime(
+    src="/assets/uikitpr-cache.js",
+    service_worker="/sw.js",
+    manifest="/asset-manifest.json",
+    version="2026.07.27",
+    cache_name="my-app",
+)
+```
+
+O cliente expõe `window.UIKitPRCache.register()`, `refresh()`, `manifest()`,
+`status()` e `clear()`. Consulte [docs/CACHE.md](docs/CACHE.md).
+
 ## Loaders e estados visuais
 
 ```python
@@ -194,6 +234,7 @@ Esse formato evita o escaping aplicado pelo SSR do PyReact a filhos de
 uikitpr css -o static/uikitpr.css
 uikitpr css -o static/uikitpr.min.css --minify
 uikitpr motion -o static/uikitpr-motion.js
+uikitpr cache -o static/uikitpr-cache.js
 ```
 
 Então use:
