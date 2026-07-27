@@ -14,6 +14,7 @@ from uikitpr import (
     TimelineStep,
     Transition,
     motion_event,
+    motion_control,
     motion_script,
     spring_keyframes,
     stagger,
@@ -89,3 +90,27 @@ def test_runtime_and_event_helpers():
     }
     assert len(motion_script(minified=True)) < len(motion_script())
     assert not motion_script(minified=True).lstrip().startswith("//")
+
+
+def test_declarative_motion_control():
+    props = motion_control(
+        "hero card",
+        "shake",
+        transition=Transition(duration=0.62),
+    )
+    config = json.loads(props["data-uipr-motion-control"])
+    assert config == {
+        "target": "hero card",
+        "preset": "shake",
+        "transition": {
+            "duration": 620,
+            "delay": 0,
+            "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+            "repeat": 0,
+            "direction": "normal",
+            "fill": "both",
+        },
+    }
+    assert "data-uipr-motion-control" in motion_script()
+    with pytest.raises(ValueError):
+        motion_control("", "pop")

@@ -1,14 +1,15 @@
 /**
- * UIKitPR Motion 0.3.0
+ * UIKitPR Motion 0.3.1
  * Runtime visual, declarativo e sem dependências.
  */
 (() => {
   "use strict";
 
-  const VERSION = "0.3.0";
+  const VERSION = "0.3.1";
   const MOTION_SELECTOR = "[data-uipr-motion]";
   const GROUP_SELECTOR = "[data-uipr-motion-group]";
   const TIMELINE_SELECTOR = "[data-uipr-timeline]";
+  const CONTROL_SELECTOR = "[data-uipr-motion-control]";
   const states = new WeakMap();
   const timelines = new Map();
   const presets = new Map();
@@ -369,10 +370,8 @@
   const resolveTargets = (target) => {
     if (!target) return [];
     const value = String(target);
-    const escaped = window.CSS?.escape
-      ? window.CSS.escape(value)
-      : value.replaceAll("\\", "\\\\").replaceAll('"', '\\"');
-    const byMotionId = document.querySelectorAll(`[data-uipr-motion-id="${escaped}"]`);
+    const byMotionId = [...document.querySelectorAll("[data-uipr-motion-id]")]
+      .filter((element) => element.dataset.uiprMotionId === value);
     if (byMotionId.length) return [...byMotionId];
     try {
       return [...document.querySelectorAll(value)];
@@ -471,6 +470,22 @@
   };
 
   window.UIKitPRMotion = api;
+  document.addEventListener("click", (event) => {
+    const control = event.target?.closest?.(CONTROL_SELECTOR);
+    if (!control) return;
+    const definition = parse(control.dataset.uiprMotionControl);
+    const animate = definition.preset || definition.animate;
+    const animations = api.play(
+      definition.target,
+      animate,
+      definition.transition || {},
+    );
+    emit(control, "uipr:motion:control", {
+      target: definition.target,
+      preset: definition.preset,
+      animations,
+    });
+  });
   document.addEventListener("uipr:motion:play", (event) => {
     const target = event.detail?.target || event.detail?.id;
     api.play(target, event.detail?.animate, event.detail?.transition);

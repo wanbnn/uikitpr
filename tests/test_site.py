@@ -24,11 +24,13 @@ def test_static_site_build(tmp_path):
     assert re.search(r'src="assets/uikitpr-motion\.[a-f0-9]{12}\.js"', html)
     assert re.search(r'src="assets/uikitpr-cache\.[a-f0-9]{12}\.js"', html)
     assert re.search(r'src="assets/app\.[a-f0-9]{12}\.js"', html)
+    assert html.count("data-uipr-motion-control=") == 4
+    assert "data-motion-preset" not in html
     assert "prpm add uikitpr" in html
     manifest = json.loads(
         (output / "asset-manifest.json").read_text(encoding="utf-8")
     )
-    assert manifest["cache"]["id"] == "uikitpr-site-0.3.0"
+    assert manifest["cache"]["id"] == "uikitpr-site-0.3.1"
     assert (output / manifest["assets"]["uikitpr.css"]["path"]).stat().st_size > 10_000
     assert (output / manifest["assets"]["site.css"]["path"]).is_file()
     assert (output / manifest["assets"]["uikitpr-motion.js"]["path"]).stat().st_size > 10_000

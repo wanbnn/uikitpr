@@ -32,20 +32,6 @@
     });
   });
 
-  document.querySelectorAll("[data-motion-preset]").forEach((button) => {
-    button.addEventListener("click", () => {
-      if (!window.UIKitPRMotion) {
-        const monitor = document.querySelector("[data-motion-event]");
-        if (monitor) monitor.textContent = "motion: indisponível";
-        return;
-      }
-      window.UIKitPRMotion.play("motion-lab-card", button.dataset.motionPreset, {
-        duration: button.dataset.motionPreset === "shake" ? 620 : 720,
-        easing: "cubic-bezier(.22,1,.36,1)",
-      });
-    });
-  });
-
   const motionEvent = document.querySelector("[data-motion-event]");
   const setMotionStatus = (value) => {
     if (motionEvent) motionEvent.textContent = value;

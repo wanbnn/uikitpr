@@ -66,6 +66,7 @@ from .motion import (
     TimelineStep,
     Transition,
     motion_event,
+    motion_control,
     motion_script,
     motion_script_data_url,
     spring_keyframes,
@@ -80,7 +81,7 @@ from .theme import (
     stylesheet_data_url,
 )
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 __all__ = [
     "Alert", "Avatar", "Badge", "BarsLoader", "Box", "Breadcrumb", "Button",
@@ -93,7 +94,8 @@ __all__ = [
     "Styles", "Switch", "Table", "TableContainer", "Text", "Textarea", "Theme",
     "Transition", "Timeline", "TimelineStep", "Spring", "PRESETS", "OrbitLoader",
     "PageLoader", "PulseLoader", "RingLoader", "Skeleton", "SkeletonCard",
-    "UIProvider", "WaveLoader", "cache_script", "create_theme", "cx", "motion_event",
+    "UIProvider", "WaveLoader", "cache_script", "create_theme", "cx",
+    "motion_control", "motion_event",
     "motion_script", "motion_script_data_url", "spring_keyframes", "stagger",
     "stylesheet", "stylesheet_data_url", "utility",
 ]

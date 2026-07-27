@@ -111,6 +111,25 @@ UIKitPRMotion.timeline("intro");
 UIKitPRMotion.registerPreset("brand-pop", definition);
 ```
 
+Controles clicáveis podem ser totalmente declarativos, sem um listener
+JavaScript específico da aplicação:
+
+```python
+from uikitpr import Button, motion_control
+
+Button(
+    "Shake",
+    **motion_control(
+        "hero",
+        "shake",
+        transition={"duration": 620},
+    ),
+)
+```
+
+O runtime usa delegação de eventos, então controles adicionados depois pelo
+PyReact também funcionam automaticamente.
+
 Eventos DOM:
 
 - `uipr:motion:start`
@@ -118,7 +137,7 @@ Eventos DOM:
 - `uipr:motion:finish`
 - `uipr:motion:cancel`
 - `uipr:motion:ready`
+- `uipr:motion:control`
 
 O runtime observa VNodes adicionados depois do carregamento, respeita
 `prefers-reduced-motion` e remove listeners e animações quando nós saem do DOM.
-

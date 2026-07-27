@@ -167,6 +167,7 @@ O motor oferece:
 - `MotionGroup` com stagger e `MotionTimeline` para orchestration;
 - lifecycle via eventos `uipr:motion:*`;
 - API imperativa `window.UIKitPRMotion`;
+- controles declarativos com `motion_control()`;
 - MutationObserver para VNodes adicionados dinamicamente;
 - suporte a `prefers-reduced-motion`.
 

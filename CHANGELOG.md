@@ -2,6 +2,13 @@
 
 Todas as mudanças relevantes do UIKitPR serão documentadas aqui.
 
+## 0.3.1 - 2026-07-27
+
+- Controles Motion declarativos por `motion_control()`.
+- Delegação de cliques integrada diretamente ao runtime Motion.
+- Resolução de `motion_id` sem depender de interpolação em seletores CSS.
+- Demonstração Pop, Shake, Flip e Blur independente do JavaScript auxiliar.
+
 ## 0.3.0 - 2026-07-27
 
 - Gerenciador de cache integrado com fingerprints SHA-256 e manifesto de assets.

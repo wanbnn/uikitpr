@@ -375,3 +375,34 @@ def stagger(
 def motion_event(name: str, detail: Mapping[str, Any] | None = None) -> dict[str, Any]:
     """Cria uma descrição de evento customizado para integrações."""
     return {"name": name, "detail": dict(detail or {})}
+
+
+def motion_control(
+    target: str,
+    preset: str | None = None,
+    *,
+    animate: Mapping[str, Any] | Sequence[Mapping[str, Any]] | None = None,
+    transition: Transition | Mapping[str, Any] | None = None,
+) -> dict[str, str]:
+    """Cria atributos para um controle declarativo do runtime Motion.
+
+    Os atributos podem ser espalhados em qualquer componente clicável::
+
+        Button("Pop", **motion_control("hero", "pop"))
+    """
+    if not target:
+        raise ValueError("target não pode ser vazio")
+    config: dict[str, Any] = {"target": target}
+    if preset:
+        config["preset"] = preset
+    if animate is not None:
+        config["animate"] = _serialize(animate)
+    if transition is not None:
+        config["transition"] = _serialize(transition)
+    return {
+        "data-uipr-motion-control": json.dumps(
+            config,
+            ensure_ascii=False,
+            separators=(",", ":"),
+        )
+    }

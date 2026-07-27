@@ -51,6 +51,7 @@ from uikitpr import (  # noqa: E402
     __version__ as UIKITPR_VERSION,
     cache_script,
     cx,
+    motion_control,
     motion_script,
     stylesheet,
 )
@@ -436,10 +437,45 @@ def MotionSection():
                         Stack(
                             Text("Experimente um preset", tone="muted", size="sm", weight="semibold"),
                             Stack(
-                                Button("Pop", size="sm", **{"data-motion-preset": "pop"}),
-                                Button("Shake", variant="outline", size="sm", **{"data-motion-preset": "shake"}),
-                                Button("Flip", variant="outline", size="sm", **{"data-motion-preset": "flip"}),
-                                Button("Blur", variant="ghost", size="sm", **{"data-motion-preset": "blur"}),
+                                Button(
+                                    "Pop",
+                                    size="sm",
+                                    **motion_control(
+                                        "motion-lab-card",
+                                        "pop",
+                                        transition={"duration": 720},
+                                    ),
+                                ),
+                                Button(
+                                    "Shake",
+                                    variant="outline",
+                                    size="sm",
+                                    **motion_control(
+                                        "motion-lab-card",
+                                        "shake",
+                                        transition={"duration": 620},
+                                    ),
+                                ),
+                                Button(
+                                    "Flip",
+                                    variant="outline",
+                                    size="sm",
+                                    **motion_control(
+                                        "motion-lab-card",
+                                        "flip",
+                                        transition={"duration": 720},
+                                    ),
+                                ),
+                                Button(
+                                    "Blur",
+                                    variant="ghost",
+                                    size="sm",
+                                    **motion_control(
+                                        "motion-lab-card",
+                                        "blur",
+                                        transition={"duration": 720},
+                                    ),
+                                ),
                                 Button(
                                     "Atualizar assets",
                                     variant="ghost",
