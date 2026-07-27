@@ -1,0 +1,360 @@
+{
+  "lockVersion": 1,
+  "generatedAt": "2026-07-27T15:06:15.137209+00:00",
+  "python": "3.14.5",
+  "contentHash": "sha256:748656cabe08b2e44668cbbc89919309a4ff6feafc40a2e969c8eaca8d5376a2",
+  "packages": [
+    {
+      "name": "build",
+      "version": "1.5.0",
+      "direct": true,
+      "dev": true,
+      "requirement": "build==1.5.0",
+      "url": "https://files.pythonhosted.org/packages/0d/fe/6bea5c9162869c5beba5d9c8abbed835ec85bf1ec1fba05a3822325c45f3/build-1.5.0-py3-none-any.whl",
+      "hashes": [
+        "13f3eecb844759ab66efec90ca17639bbf14dc06cb2fdf37a9010322d9c50a6f"
+      ]
+    },
+    {
+      "name": "certifi",
+      "version": "2026.7.22",
+      "direct": false,
+      "dev": true,
+      "requirement": "certifi==2026.7.22",
+      "url": "https://files.pythonhosted.org/packages/0b/a7/71ac2cff56fec219ed242bb11b8efb69fcc4bec75db06fb7bfe35de520e6/certifi-2026.7.22-py3-none-any.whl",
+      "hashes": [
+        "62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775"
+      ]
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.4.9",
+      "direct": false,
+      "dev": true,
+      "requirement": "charset-normalizer==3.4.9",
+      "url": "https://files.pythonhosted.org/packages/49/fd/a1d26144398c67486422a72bf5812cda22cb4ccfcd95a290fb41ceb4b8e2/charset_normalizer-3.4.9-cp314-cp314-win_amd64.whl",
+      "hashes": [
+        "16b65ea0f2465b6fb52aa22de5eca612aa964ddfec00a912e26f4656cbef890b"
+      ]
+    },
+    {
+      "name": "colorama",
+      "version": "0.4.6",
+      "direct": false,
+      "dev": true,
+      "requirement": "colorama==0.4.6",
+      "url": "https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl",
+      "hashes": [
+        "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"
+      ]
+    },
+    {
+      "name": "coverage",
+      "version": "7.15.2",
+      "direct": false,
+      "dev": true,
+      "requirement": "coverage==7.15.2",
+      "url": "https://files.pythonhosted.org/packages/c6/83/5d809dc808fb1698c671f3e372259bb9158e64b7ea526fc6ab7de64de9fe/coverage-7.15.2-cp314-cp314-win_amd64.whl",
+      "hashes": [
+        "9911f31aad8906abe337c271343485cf20df5e70df5d2f57f9f136e7b55f26bc"
+      ]
+    },
+    {
+      "name": "docutils",
+      "version": "0.23",
+      "direct": false,
+      "dev": true,
+      "requirement": "docutils==0.23",
+      "url": "https://files.pythonhosted.org/packages/32/91/30151a39f7570f448ed84529390628a651d7f27c87d73c9b887f8189695e/docutils-0.23-py3-none-any.whl",
+      "hashes": [
+        "25d013af9bf23bc1c7b2b093dff4208166c53a94786c9e447808335ef1185fea"
+      ]
+    },
+    {
+      "name": "id",
+      "version": "1.6.1",
+      "direct": false,
+      "dev": true,
+      "requirement": "id==1.6.1",
+      "url": "https://files.pythonhosted.org/packages/42/77/de194443bf38daed9452139e960c632b0ef9f9a5dd9ce605fdf18ca9f1b1/id-1.6.1-py3-none-any.whl",
+      "hashes": [
+        "f5ec41ed2629a508f5d0988eda142e190c9c6da971100612c4de9ad9f9b237ca"
+      ]
+    },
+    {
+      "name": "idna",
+      "version": "3.18",
+      "direct": false,
+      "dev": true,
+      "requirement": "idna==3.18",
+      "url": "https://files.pythonhosted.org/packages/1e/5e/d4e9f1a599fb8e573b7b87160658329fbf28d19eac2718f51fc3def3aa5a/idna-3.18-py3-none-any.whl",
+      "hashes": [
+        "7f952cbe720b688055e3f87de14f5c3e5fdaa8bc3928985c4077ca689de849a2"
+      ]
+    },
+    {
+      "name": "iniconfig",
+      "version": "2.3.0",
+      "direct": false,
+      "dev": true,
+      "requirement": "iniconfig==2.3.0",
+      "url": "https://files.pythonhosted.org/packages/cb/b1/3846dd7f199d53cb17f49cba7e651e9ce294d8497c8c150530ed11865bb8/iniconfig-2.3.0-py3-none-any.whl",
+      "hashes": [
+        "f631c04d2c48c52b84d0d0549c99ff3859c98df65b3101406327ecc7d53fbf12"
+      ]
+    },
+    {
+      "name": "jaraco.classes",
+      "version": "3.4.0",
+      "direct": false,
+      "dev": true,
+      "requirement": "jaraco.classes==3.4.0",
+      "url": "https://files.pythonhosted.org/packages/7f/66/b15ce62552d84bbfcec9a4873ab79d993a1dd4edb922cbfccae192bd5b5f/jaraco.classes-3.4.0-py3-none-any.whl",
+      "hashes": [
+        "f662826b6bed8cace05e7ff873ce0f9283b5c924470fe664fff1c2f00f581790"
+      ]
+    },
+    {
+      "name": "jaraco.context",
+      "version": "6.1.2",
+      "direct": false,
+      "dev": true,
+      "requirement": "jaraco.context==6.1.2",
+      "url": "https://files.pythonhosted.org/packages/f2/58/bc8954bda5fcda97bd7c19be11b85f91973d67a706ed4a3aec33e7de22db/jaraco_context-6.1.2-py3-none-any.whl",
+      "hashes": [
+        "bf8150b79a2d5d91ae48629d8b427a8f7ba0e1097dd6202a9059f29a36379535"
+      ]
+    },
+    {
+      "name": "jaraco.functools",
+      "version": "4.6.0",
+      "direct": false,
+      "dev": true,
+      "requirement": "jaraco.functools==4.6.0",
+      "url": "https://files.pythonhosted.org/packages/02/36/ecc85bc96c273dc8a11273ed4782272975e6338d4a3e9228621175edf0e3/jaraco_functools-4.6.0-py3-none-any.whl",
+      "hashes": [
+        "99e3dc0060c5cbe8fcd1cdb36258e2a65ca40f1566b2033b12abb1bb44dd3c30"
+      ]
+    },
+    {
+      "name": "keyring",
+      "version": "25.7.0",
+      "direct": false,
+      "dev": true,
+      "requirement": "keyring==25.7.0",
+      "url": "https://files.pythonhosted.org/packages/81/db/e655086b7f3a705df045bf0933bdd9c2f79bb3c97bfef1384598bb79a217/keyring-25.7.0-py3-none-any.whl",
+      "hashes": [
+        "be4a0b195f149690c166e850609a477c532ddbfbaed96a404d4e43f8d5e2689f"
+      ]
+    },
+    {
+      "name": "markdown-it-py",
+      "version": "4.2.0",
+      "direct": false,
+      "dev": true,
+      "requirement": "markdown-it-py==4.2.0",
+      "url": "https://files.pythonhosted.org/packages/b3/81/4da04ced5a082363ecfa159c010d200ecbd959ae410c10c0264a38cac0f5/markdown_it_py-4.2.0-py3-none-any.whl",
+      "hashes": [
+        "9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a"
+      ]
+    },
+    {
+      "name": "mdurl",
+      "version": "0.1.2",
+      "direct": false,
+      "dev": true,
+      "requirement": "mdurl==0.1.2",
+      "url": "https://files.pythonhosted.org/packages/b3/38/89ba8ad64ae25be8de66a6d463314cf1eb366222074cfda9ee839c56a4b4/mdurl-0.1.2-py3-none-any.whl",
+      "hashes": [
+        "84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8"
+      ]
+    },
+    {
+      "name": "more-itertools",
+      "version": "11.1.0",
+      "direct": false,
+      "dev": true,
+      "requirement": "more-itertools==11.1.0",
+      "url": "https://files.pythonhosted.org/packages/e8/3d/1087453384dbde46a8c7f9356eead2c58be8a7bf156bca40243377c85715/more_itertools-11.1.0-py3-none-any.whl",
+      "hashes": [
+        "4b65538ae22f6fed0ce4874efd317463a7489796a0939fa66824dd542125a192"
+      ]
+    },
+    {
+      "name": "nh3",
+      "version": "0.3.6",
+      "direct": false,
+      "dev": true,
+      "requirement": "nh3==0.3.6",
+      "url": "https://files.pythonhosted.org/packages/82/fa/2b5d684e3edf1e81bfd02d298c78c3e3da77ca1d8a2be3183a79544a7548/nh3-0.3.6-cp38-abi3-win_amd64.whl",
+      "hashes": [
+        "f338ac7d594c067679f1e99b4f5ec3906842979560f9d8f15d6bdfa39a353b10"
+      ]
+    },
+    {
+      "name": "packaging",
+      "version": "26.2",
+      "direct": false,
+      "dev": true,
+      "requirement": "packaging==26.2",
+      "url": "https://files.pythonhosted.org/packages/df/b2/87e62e8c3e2f4b32e5fe99e0b86d576da1312593b39f47d8ceef365e95ed/packaging-26.2-py3-none-any.whl",
+      "hashes": [
+        "5fc45236b9446107ff2415ce77c807cee2862cb6fac22b8a73826d0693b0980e"
+      ]
+    },
+    {
+      "name": "pluggy",
+      "version": "1.6.0",
+      "direct": false,
+      "dev": true,
+      "requirement": "pluggy==1.6.0",
+      "url": "https://files.pythonhosted.org/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl",
+      "hashes": [
+        "e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746"
+      ]
+    },
+    {
+      "name": "Pygments",
+      "version": "2.20.0",
+      "direct": false,
+      "dev": true,
+      "requirement": "Pygments==2.20.0",
+      "url": "https://files.pythonhosted.org/packages/f4/7e/a72dd26f3b0f4f2bf1dd8923c85f7ceb43172af56d63c7383eb62b332364/pygments-2.20.0-py3-none-any.whl",
+      "hashes": [
+        "81a9e26dd42fd28a23a2d169d86d7ac03b46e2f8b59ed4698fb4785f946d0176"
+      ]
+    },
+    {
+      "name": "pyproject_hooks",
+      "version": "1.2.0",
+      "direct": false,
+      "dev": true,
+      "requirement": "pyproject_hooks==1.2.0",
+      "url": "https://files.pythonhosted.org/packages/bd/24/12818598c362d7f300f18e74db45963dbcb85150324092410c8b49405e42/pyproject_hooks-1.2.0-py3-none-any.whl",
+      "hashes": [
+        "9e5c6bfa8dcc30091c74b0cf803c81fdd29d94f01992a7707bc97babb1141913"
+      ]
+    },
+    {
+      "name": "pyreact-framework",
+      "version": "1.0.5",
+      "direct": true,
+      "dev": false,
+      "requirement": "pyreact-framework==1.0.5",
+      "url": "https://files.pythonhosted.org/packages/87/26/dfa1441e26be59782ea4685b7897f8b1be118a8cb5f9f9ecf29ab2cafbf0/pyreact_framework-1.0.5-py3-none-any.whl",
+      "hashes": [
+        "bfa4f2766797033f22bb2a3726311acec0c1eb74bcf36bd3d1ebe9dba9bbc48b"
+      ]
+    },
+    {
+      "name": "pytest",
+      "version": "9.1.1",
+      "direct": true,
+      "dev": true,
+      "requirement": "pytest==9.1.1",
+      "url": "https://files.pythonhosted.org/packages/24/25/1de2678b631f5a49215c6c96fff41ba892b0a34df68d6d80292b1b48aa7f/pytest-9.1.1-py3-none-any.whl",
+      "hashes": [
+        "37a86b45efb9a47a61a36449063e8e18d0cab3161329fc099eb21783169c4f0c"
+      ]
+    },
+    {
+      "name": "pytest-cov",
+      "version": "7.1.0",
+      "direct": true,
+      "dev": true,
+      "requirement": "pytest-cov==7.1.0",
+      "url": "https://files.pythonhosted.org/packages/9d/7a/d968e294073affff457b041c2be9868a40c1c71f4a35fcc1e45e5493067b/pytest_cov-7.1.0-py3-none-any.whl",
+      "hashes": [
+        "a0461110b7865f9a271aa1b51e516c9a95de9d696734a2f71e3e78f46e1d4678"
+      ]
+    },
+    {
+      "name": "pywin32-ctypes",
+      "version": "0.2.3",
+      "direct": false,
+      "dev": true,
+      "requirement": "pywin32-ctypes==0.2.3",
+      "url": "https://files.pythonhosted.org/packages/de/3d/8161f7711c017e01ac9f008dfddd9410dff3674334c233bde66e7ba65bbf/pywin32_ctypes-0.2.3-py3-none-any.whl",
+      "hashes": [
+        "8a1513379d709975552d202d942d9837758905c8d01eb82b8bcc30918929e7b8"
+      ]
+    },
+    {
+      "name": "readme_renderer",
+      "version": "45.0",
+      "direct": false,
+      "dev": true,
+      "requirement": "readme_renderer==45.0",
+      "url": "https://files.pythonhosted.org/packages/97/1b/295bf2fa3e740131778065e5ffa2c481f0e7210182d408e9a2c244ff5b0c/readme_renderer-45.0-py3-none-any.whl",
+      "hashes": [
+        "3385ed220117104a2bceb4a9dac8c5fdf6d1f96890d7ea2a9c7174fd5c84091f"
+      ]
+    },
+    {
+      "name": "requests",
+      "version": "2.34.2",
+      "direct": false,
+      "dev": true,
+      "requirement": "requests==2.34.2",
+      "url": "https://files.pythonhosted.org/packages/a0/f4/c67b0b3f1b9245e8d266f0f112c500d50e5b4e83cb6f3b71b6528104182a/requests-2.34.2-py3-none-any.whl",
+      "hashes": [
+        "2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0"
+      ]
+    },
+    {
+      "name": "requests-toolbelt",
+      "version": "1.0.0",
+      "direct": false,
+      "dev": true,
+      "requirement": "requests-toolbelt==1.0.0",
+      "url": "https://files.pythonhosted.org/packages/3f/51/d4db610ef29373b879047326cbf6fa98b6c1969d6f6dc423279de2b1be2c/requests_toolbelt-1.0.0-py2.py3-none-any.whl",
+      "hashes": [
+        "cccfdd665f0a24fcf4726e690f65639d272bb0637b9b92dfd91a5568ccf6bd06"
+      ]
+    },
+    {
+      "name": "rfc3986",
+      "version": "2.0.0",
+      "direct": false,
+      "dev": true,
+      "requirement": "rfc3986==2.0.0",
+      "url": "https://files.pythonhosted.org/packages/ff/9a/9afaade874b2fa6c752c36f1548f718b5b83af81ed9b76628329dab81c1b/rfc3986-2.0.0-py2.py3-none-any.whl",
+      "hashes": [
+        "50b1502b60e289cb37883f3dfd34532b8873c7de9f49bb546641ce9cbd256ebd"
+      ]
+    },
+    {
+      "name": "rich",
+      "version": "15.0.0",
+      "direct": false,
+      "dev": true,
+      "requirement": "rich==15.0.0",
+      "url": "https://files.pythonhosted.org/packages/82/3b/64d4899d73f91ba49a8c18a8ff3f0ea8f1c1d75481760df8c68ef5235bf5/rich-15.0.0-py3-none-any.whl",
+      "hashes": [
+        "33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb"
+      ]
+    },
+    {
+      "name": "twine",
+      "version": "6.2.0",
+      "direct": true,
+      "dev": true,
+      "requirement": "twine==6.2.0",
+      "url": "https://files.pythonhosted.org/packages/3a/7a/882d99539b19b1490cac5d77c67338d126e4122c8276bf640e411650c830/twine-6.2.0-py3-none-any.whl",
+      "hashes": [
+        "418ebf08ccda9a8caaebe414433b0ba5e25eb5e4a927667122fbe8f829f985d8"
+      ]
+    },
+    {
+      "name": "urllib3",
+      "version": "2.7.0",
+      "direct": false,
+      "dev": true,
+      "requirement": "urllib3==2.7.0",
+      "url": "https://files.pythonhosted.org/packages/7f/3e/5db95bcf282c52709639744ca2a8b149baccf648e39c8cc87553df9eae0c/urllib3-2.7.0-py3-none-any.whl",
+      "hashes": [
+        "9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897"
+      ]
+    }
+  ]
+}
