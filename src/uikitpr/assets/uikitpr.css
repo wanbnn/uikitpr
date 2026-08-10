@@ -290,6 +290,302 @@
   .uipr-root *, .uipr-root *::before, .uipr-root *::after { scroll-behavior: auto; transition-duration: .01ms; }
 }
 
+/* UIKitPR Creative catalog */
+.uipr-creative {
+  --uipr-creative-color: var(--uipr-primary);
+  --uipr-creative-secondary: #26c6da;
+  --uipr-creative-speed: 8s;
+  --uipr-creative-intensity: 1;
+  --uipr-creative-x: 50%;
+  --uipr-creative-y: 50%;
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+}
+.uipr-creative-layer,
+.uipr-creative-canvas { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.uipr-creative-content { position: relative; z-index: 2; }
+
+/* Text archetypes */
+.uipr-creative-text { display: inline-block; }
+.uipr-creative-text > span:not(.sr-only) {
+  display: inline-block;
+  animation-delay: calc(var(--i, 0) * 45ms);
+  animation-duration: calc(var(--uipr-creative-speed) / 10);
+  animation-fill-mode: both;
+}
+.uipr-creative-text.uipr-creative-default > span:not(.sr-only) { animation-name: uipr-creative-text-in; }
+.uipr-creative-text.uipr-creative-terminal { color: var(--uipr-creative-color); font-family: ui-monospace, monospace; text-shadow: 0 0 .7em color-mix(in srgb, var(--uipr-creative-color) 65%, transparent); }
+.uipr-creative-text.uipr-creative-terminal > span:not(.sr-only) { animation-name: uipr-creative-terminal; animation-iteration-count: infinite; }
+.uipr-creative-text.uipr-creative-distort > span:not(.sr-only) { animation-name: uipr-creative-distort; animation-iteration-count: infinite; animation-direction: alternate; }
+.uipr-creative-text.uipr-creative-path > span:not(.sr-only) { transform-origin: 50% 170%; animation-name: uipr-creative-path; animation-iteration-count: infinite; animation-direction: alternate; }
+.uipr-creative-text.uipr-creative-scroll > span:not(.sr-only) { animation-name: uipr-creative-scroll-text; animation-timeline: view(); animation-range: entry 5% cover 35%; }
+.uipr-creative-text.uipr-creative-loop > span:not(.sr-only) { animation-name: uipr-creative-loop-text; animation-iteration-count: infinite; }
+.uipr-creative-count-up { font-variant-numeric: tabular-nums; }
+.uipr-creative-glitch-text { color: var(--uipr-text); text-shadow: .05em 0 var(--uipr-creative-color), -.05em 0 var(--uipr-creative-secondary); }
+.uipr-creative-text-pressure { font-variation-settings: "wght" calc(450 + var(--uipr-creative-intensity) * 250); transform: scaleX(calc(1 + var(--uipr-creative-nx, 0) * .12)); }
+@keyframes uipr-creative-text-in { from { opacity: 0; filter: blur(8px); transform: translateY(.7em); } }
+@keyframes uipr-creative-terminal { 0%, 12% { opacity: .18; } 13%, 100% { opacity: 1; } }
+@keyframes uipr-creative-distort { 0%, 100% { transform: skew(0); filter: blur(0); } 45% { transform: skew(-5deg) translateY(-.08em); filter: blur(.35px); } }
+@keyframes uipr-creative-path { to { transform: translateY(-.18em) rotate(calc((var(--i) - 5) * 1deg)); } }
+@keyframes uipr-creative-scroll-text { from { opacity: 0; transform: translateY(1em) rotateX(-70deg); } to { opacity: 1; transform: none; } }
+@keyframes uipr-creative-loop-text { 50% { opacity: .55; transform: translateY(-.12em); } }
+
+/* Animation and background archetypes */
+.uipr-creative-animation,
+.uipr-creative-background { overflow: hidden; min-height: 12rem; border-radius: inherit; background: var(--uipr-background); }
+.uipr-creative-animation.uipr-creative-cursor::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  left: var(--uipr-creative-x);
+  top: var(--uipr-creative-y);
+  width: 1.7rem;
+  aspect-ratio: 1;
+  border: 2px solid var(--uipr-creative-color);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--uipr-creative-color) 18%, transparent);
+  box-shadow: 0 0 2rem var(--uipr-creative-color);
+  transform: translate(-50%, -50%);
+  transition: left 80ms linear, top 80ms linear;
+  pointer-events: none;
+}
+.uipr-creative-field .uipr-creative-layer-1,
+.uipr-creative-space .uipr-creative-layer-1 { background: radial-gradient(circle at var(--uipr-creative-x) var(--uipr-creative-y), color-mix(in srgb, var(--uipr-creative-color) 35%, transparent), transparent 38%); }
+.uipr-creative-surface { border: 1px solid color-mix(in srgb, var(--uipr-creative-color) 70%, var(--uipr-border)); }
+.uipr-creative-surface .uipr-creative-layer-1 { background: linear-gradient(115deg, transparent 30%, color-mix(in srgb, var(--uipr-creative-color) 35%, transparent) 48%, transparent 64%); transform: translateX(-100%); animation: uipr-creative-sweep var(--uipr-creative-speed) ease-in-out infinite; }
+.uipr-creative-reveal { animation: uipr-creative-reveal calc(var(--uipr-creative-speed) / 8) cubic-bezier(.22, 1, .36, 1) both; }
+@keyframes uipr-creative-sweep { 50%, 100% { transform: translateX(100%); } }
+@keyframes uipr-creative-reveal { from { opacity: 0; filter: blur(12px); clip-path: inset(0 100% 0 0); } }
+
+.uipr-creative-background { min-height: 16rem; }
+.uipr-creative-background.uipr-creative-grid .uipr-creative-layer-1 {
+  opacity: .38;
+  background-image: linear-gradient(var(--uipr-creative-color) 1px, transparent 1px), linear-gradient(90deg, var(--uipr-creative-color) 1px, transparent 1px);
+  background-size: 2rem 2rem;
+  mask-image: radial-gradient(circle at var(--uipr-creative-x) var(--uipr-creative-y), #000, transparent 70%);
+}
+.uipr-creative-background.uipr-creative-grid .uipr-creative-layer-2 { background: repeating-radial-gradient(circle at center, transparent 0 12px, color-mix(in srgb, var(--uipr-creative-secondary) 12%, transparent) 13px 14px); animation: uipr-creative-spin var(--uipr-creative-speed) linear infinite; }
+.uipr-creative-background.uipr-creative-light .uipr-creative-layer-1 { inset: -30%; background: conic-gradient(from 210deg at 50% 0, transparent, var(--uipr-creative-color), transparent 32%, var(--uipr-creative-secondary), transparent 58%); filter: blur(15px); opacity: .55; animation: uipr-creative-light var(--uipr-creative-speed) ease-in-out infinite alternate; }
+.uipr-creative-background.uipr-creative-fluid .uipr-creative-layer-1 { inset: -30%; opacity: .65; background: radial-gradient(ellipse at 25% 35%, var(--uipr-creative-color), transparent 42%), radial-gradient(ellipse at 76% 62%, var(--uipr-creative-secondary), transparent 44%); filter: blur(32px) saturate(140%); animation: uipr-creative-fluid var(--uipr-creative-speed) ease-in-out infinite alternate; }
+.uipr-creative-background.uipr-creative-space { background: radial-gradient(ellipse at bottom, color-mix(in srgb, var(--uipr-creative-color) 25%, var(--uipr-background)), var(--uipr-background) 68%); }
+.uipr-creative-background.uipr-creative-lines .uipr-creative-layer-1 { inset: -20%; opacity: .5; background: repeating-radial-gradient(ellipse at 50% 100%, transparent 0 18px, var(--uipr-creative-color) 20px 21px); animation: uipr-creative-lines var(--uipr-creative-speed) linear infinite; }
+.uipr-creative-background.uipr-creative-default .uipr-creative-layer-1 { background: radial-gradient(circle at 30% 40%, color-mix(in srgb, var(--uipr-creative-color) 45%, transparent), transparent 38%), radial-gradient(circle at 70% 65%, color-mix(in srgb, var(--uipr-creative-secondary) 38%, transparent), transparent 36%); }
+@keyframes uipr-creative-spin { to { transform: rotate(360deg) scale(1.15); } }
+@keyframes uipr-creative-light { to { transform: translate3d(8%, 4%, 0) rotate(8deg); } }
+@keyframes uipr-creative-fluid { to { transform: translate3d(7%, -4%, 0) rotate(6deg) scale(1.12); } }
+@keyframes uipr-creative-lines { to { transform: translateY(-3rem); } }
+
+/* UI archetypes */
+.uipr-creative-ui { color: var(--uipr-text); }
+.uipr-creative-ui .uipr-creative-item { min-width: 0; padding: 1rem; border: 1px solid var(--uipr-border); border-radius: var(--uipr-radius); color: inherit; background: var(--uipr-surface); text-decoration: none; box-shadow: var(--uipr-shadow-sm); }
+.uipr-creative-ui.uipr-creative-navigation { display: flex; align-items: center; gap: .5rem; width: max-content; max-width: 100%; padding: .5rem; border: 1px solid var(--uipr-border); border-radius: 999px; background: color-mix(in srgb, var(--uipr-surface) 82%, transparent); backdrop-filter: blur(16px); }
+.uipr-creative-ui.uipr-creative-navigation .uipr-creative-item { padding: .65rem .9rem; border: 0; border-radius: 999px; background: transparent; box-shadow: none; transition: transform .2s ease, background .2s ease; }
+.uipr-creative-ui.uipr-creative-navigation .uipr-creative-item:hover { color: var(--uipr-primary); background: var(--uipr-primary-soft); transform: translateY(-4px) scale(1.06); }
+.uipr-creative-ui.uipr-creative-gallery { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(13rem, 34%); gap: 1rem; overflow-x: auto; padding: 1rem; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+.uipr-creative-ui.uipr-creative-gallery .uipr-creative-item { min-height: 11rem; scroll-snap-align: center; transition: transform .3s ease; }
+.uipr-creative-ui.uipr-creative-gallery .uipr-creative-item:hover { transform: translateY(-6px) rotate(1deg); }
+.uipr-creative-ui.uipr-creative-glass,
+.uipr-creative-ui.uipr-creative-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1rem; padding: 1rem; }
+.uipr-creative-ui.uipr-creative-glass .uipr-creative-item { background: color-mix(in srgb, var(--uipr-surface) 58%, transparent); backdrop-filter: blur(18px) saturate(140%); }
+.uipr-creative-ui.uipr-creative-cards .uipr-creative-item { transition: transform .35s cubic-bezier(.22, 1, .36, 1), box-shadow .35s ease; }
+.uipr-creative-ui.uipr-creative-cards .uipr-creative-item:hover { transform: perspective(600px) rotateX(calc(var(--uipr-creative-ny, 0) * -8deg)) rotateY(calc(var(--uipr-creative-nx, 0) * 8deg)) translateY(-5px); box-shadow: var(--uipr-shadow-lg); }
+.uipr-creative-ui.uipr-creative-control { accent-color: var(--uipr-creative-color); }
+input.uipr-creative-curved-input { width: min(100%, 30rem); padding: .85rem 1.1rem; border: 1px solid var(--uipr-border); border-radius: 999px 999px 999px .35rem; color: var(--uipr-text); background: var(--uipr-surface); }
+input.uipr-creative-elastic-slider { width: min(100%, 30rem); }
+output.uipr-creative-counter { color: var(--uipr-creative-color); font-size: 3rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  .uipr-creative *, .uipr-creative::before, .uipr-creative::after { animation: none !important; transition-duration: .01ms !important; }
+}
+
+/* Creative effects: text, backgrounds, and interactive surfaces */
+.sr-only {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.uipr-animated-text { display: inline; }
+.uipr-animated-text-segment {
+  display: inline-block;
+  animation-duration: var(--uipr-text-duration, .7s);
+  animation-delay: var(--uipr-text-delay, 0s);
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(.22, 1, .36, 1);
+}
+.uipr-text-effect-blur .uipr-animated-text-segment { animation-name: uipr-text-blur; }
+.uipr-text-effect-rise .uipr-animated-text-segment { animation-name: uipr-text-rise; }
+.uipr-text-effect-wave .uipr-animated-text-segment {
+  animation-name: uipr-text-wave;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+.uipr-text-effect-reveal .uipr-animated-text-segment { animation-name: uipr-text-reveal; }
+@keyframes uipr-text-blur {
+  from { opacity: 0; filter: blur(10px); transform: translateY(var(--uipr-text-distance, .8em)); }
+  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+@keyframes uipr-text-rise {
+  from { opacity: 0; transform: translateY(var(--uipr-text-distance, .8em)) rotate(3deg); }
+  to { opacity: 1; transform: translateY(0) rotate(0); }
+}
+@keyframes uipr-text-wave {
+  from { transform: translateY(.08em); }
+  to { transform: translateY(-.22em); }
+}
+@keyframes uipr-text-reveal {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); }
+  to { opacity: 1; clip-path: inset(0); }
+}
+
+.uipr-shiny-text {
+  color: var(--uipr-shine-color, currentColor);
+  background: linear-gradient(110deg, currentColor 25%, var(--uipr-shine-highlight, #fff) 47%, currentColor 68%);
+  background-size: 250% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: uipr-text-shine var(--uipr-shine-duration, 2.5s) linear infinite;
+}
+@keyframes uipr-text-shine { to { background-position: -250% 0; } }
+
+.uipr-gradient-text {
+  color: transparent;
+  background: linear-gradient(90deg, var(--uipr-gradient-colors));
+  background-size: 300% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: uipr-text-gradient var(--uipr-gradient-duration, 5s) ease infinite alternate;
+}
+@keyframes uipr-text-gradient { to { background-position: 100% 50%; } }
+
+.uipr-background {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-width: 0;
+}
+.uipr-background > :not(.uipr-background-layer) { position: relative; z-index: 1; }
+.uipr-background-layer { position: absolute; z-index: 0; inset: 0; pointer-events: none; }
+.uipr-background-dots .uipr-background-layer {
+  opacity: var(--uipr-bg-opacity, .28);
+  background-image: radial-gradient(circle, var(--uipr-bg-color) 1.2px, transparent 1.4px);
+  background-size: var(--uipr-bg-size, 2rem) var(--uipr-bg-size, 2rem);
+  mask-image: linear-gradient(to bottom, #000, transparent 92%);
+}
+.uipr-background-grid .uipr-background-layer {
+  opacity: var(--uipr-bg-opacity, .28);
+  background-image:
+    linear-gradient(to right, var(--uipr-bg-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--uipr-bg-color) 1px, transparent 1px);
+  background-size: var(--uipr-bg-size, 2rem) var(--uipr-bg-size, 2rem);
+  mask-image: radial-gradient(ellipse at center, #000 25%, transparent 80%);
+}
+.uipr-background-aurora .uipr-background-layer {
+  inset: -45%;
+  opacity: var(--uipr-bg-opacity, .45);
+  background:
+    radial-gradient(ellipse at 28% 42%, var(--uipr-bg-color) 0, transparent 45%),
+    radial-gradient(ellipse at 72% 58%, var(--uipr-bg-secondary) 0, transparent 42%);
+  filter: blur(36px) saturate(135%);
+  animation: uipr-aurora var(--uipr-bg-speed, 12s) ease-in-out infinite alternate;
+}
+@keyframes uipr-aurora {
+  from { transform: translate3d(-4%, -2%, 0) rotate(-5deg) scale(1); }
+  to { transform: translate3d(6%, 4%, 0) rotate(8deg) scale(1.12); }
+}
+.uipr-background-beams .uipr-background-layer {
+  inset: -40% -20%;
+  opacity: var(--uipr-bg-opacity, .28);
+  background: repeating-linear-gradient(115deg, transparent 0 8%, var(--uipr-bg-color) 9% 10%, transparent 12% 19%);
+  filter: blur(10px);
+  animation: uipr-beams var(--uipr-bg-speed, 12s) linear infinite;
+}
+@keyframes uipr-beams { to { transform: translate3d(12%, 8%, 0); } }
+
+.uipr-spotlight-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--uipr-border);
+  border-radius: var(--uipr-radius);
+  background: var(--uipr-surface);
+  box-shadow: var(--uipr-shadow-sm);
+}
+.uipr-spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--uipr-spotlight-color) 34%, transparent), transparent 42%);
+  transform: translate3d(-22%, 18%, 0);
+  transition: opacity .35s ease, transform .55s cubic-bezier(.22, 1, .36, 1);
+}
+.uipr-spotlight-card:hover::before { opacity: 1; transform: translate3d(8%, -8%, 0); }
+.uipr-spotlight-card > * { position: relative; z-index: 1; }
+
+.uipr-star-border {
+  position: relative;
+  overflow: hidden;
+  padding: 1px;
+  border-radius: var(--uipr-radius);
+  background: var(--uipr-border);
+}
+.uipr-star-border::before {
+  content: "";
+  position: absolute;
+  width: 42%;
+  aspect-ratio: 1;
+  left: -10%;
+  top: 50%;
+  background: radial-gradient(circle, var(--uipr-star-color), transparent 68%);
+  transform-origin: 150% 0;
+  animation: uipr-star-orbit var(--uipr-star-speed, 4s) linear infinite;
+}
+.uipr-star-border-content {
+  position: relative;
+  z-index: 1;
+  display: block;
+  overflow: hidden;
+  height: 100%;
+  border-radius: calc(var(--uipr-radius) - 1px);
+  background: var(--uipr-surface);
+}
+@keyframes uipr-star-orbit { to { transform: rotate(360deg); } }
+
+.uipr-marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.uipr-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: uipr-marquee var(--uipr-marquee-duration, 20s) linear infinite;
+}
+.uipr-marquee-reverse .uipr-marquee-track { animation-direction: reverse; }
+.uipr-marquee:hover .uipr-marquee-track { animation-play-state: paused; }
+.uipr-marquee-group { display: flex; flex: none; align-items: center; gap: var(--uipr-marquee-gap, 2rem); padding-right: var(--uipr-marquee-gap, 2rem); }
+@keyframes uipr-marquee { to { transform: translateX(-50%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .uipr-animated-text-segment,
+  .uipr-shiny-text,
+  .uipr-gradient-text,
+  .uipr-background-layer,
+  .uipr-star-border::before,
+  .uipr-marquee-track {
+    animation: none !important;
+  }
+}
+
 .uipr-progress { display: grid; gap: .4rem; }
 .uipr-progress-label { color: var(--uipr-text); font-size: .82rem; font-weight: 650; }
 .uipr-progress-track { overflow: hidden; width: 100%; height: .55rem; border-radius: 999px; background: var(--uipr-border); }

@@ -7,6 +7,7 @@ from pathlib import Path
 
 from .cache import cache_script
 from .motion import motion_script
+from .creative import creative_script
 from .theme import stylesheet
 
 
@@ -22,6 +23,9 @@ def build_parser() -> argparse.ArgumentParser:
     motion = subcommands.add_parser("motion", help="exporta o runtime de animações")
     motion.add_argument("-o", "--output", default="uikitpr-motion.js")
     motion.add_argument("--minify", action="store_true")
+    creative = subcommands.add_parser("creative", help="exporta o runtime do catálogo criativo")
+    creative.add_argument("-o", "--output", default="uikitpr-creative.js")
+    creative.add_argument("--minify", action="store_true")
     cache = subcommands.add_parser("cache", help="exporta o gerenciador de cache")
     cache.add_argument("-o", "--output", default="uikitpr-cache.js")
     cache.add_argument("--minify", action="store_true")
@@ -47,6 +51,12 @@ def main(argv: list[str] | None = None) -> int:
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(motion_script(minified=args.minify), encoding="utf-8")
         print(f"Runtime Motion exportado para {output.resolve()}")
+        return 0
+    if args.command == "creative":
+        output = Path(args.output)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(creative_script(minified=args.minify), encoding="utf-8")
+        print(f"Runtime Creative exportado para {output.resolve()}")
         return 0
     if args.command == "cache":
         output = Path(args.output)

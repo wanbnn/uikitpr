@@ -22,3 +22,11 @@ def test_cli_exports_cache_runtime(tmp_path):
     source = destination.read_text(encoding="utf-8")
     assert "UIKitPRCache" in source
     assert "serviceWorker" in source
+
+
+def test_cli_exports_creative_runtime(tmp_path):
+    destination = tmp_path / "assets" / "creative.js"
+    assert main(["creative", "-o", str(destination), "--minify"]) == 0
+    source = destination.read_text(encoding="utf-8")
+    assert "UIKitPRCreative" in source
+    assert "MutationObserver" in source

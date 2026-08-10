@@ -2,6 +2,20 @@
 
 All notable UIKitPR changes will be documented in this file.
 
+## Unreleased
+
+- Added animated text primitives: `AnimatedText`, `BlurText`, `SplitText`,
+  `ShinyText`, and `GradientText`.
+- Added Aurora, dots, grid, and beam background components.
+- Added `SpotlightCard`, `StarBorder`, and `Marquee` creative surfaces.
+- Added a searchable live catalog with copy-ready examples to GitHub Pages.
+- Added reduced-motion fallbacks and accessible text segmentation.
+- Added the frozen 135-item compatibility baseline: 22 text animations,
+  28 animations, 38 UI components, and 47 backgrounds.
+- Added a shared pointer/canvas runtime, `UIProvider` integration, and the
+  `uikitpr creative` asset export command.
+- Generated all catalog exports and GitHub Pages entries from one registry.
+
 ## 0.3.2 - 2026-07-27
 
 - Added continuous ambient movement to the Motion demonstration.

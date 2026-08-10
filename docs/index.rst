@@ -11,6 +11,8 @@ Guides
    :maxdepth: 2
 
    COMPONENTS
+   EFFECTS
+   CREATIVE_CATALOG
    MOTION
    CACHE
    changelog

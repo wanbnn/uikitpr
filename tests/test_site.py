@@ -47,3 +47,12 @@ def test_static_site_build(tmp_path):
     assert (output / "sw.js").is_file()
     assert "network-first" in (output / "sw.js").read_text(encoding="utf-8")
     assert (output / ".nojekyll").is_file()
+    docs_html = (output / "docs" / "index.html").read_text(encoding="utf-8")
+    assert "Componentes criativos. Python de verdade." in docs_html
+    assert docs_html.count('data-doc-item="true"') == 135
+    assert 'data-doc-search-input="true"' in docs_html
+    assert "BlurText" in docs_html
+    assert "Aurora" in docs_html
+    assert re.search(r'href="../assets/uikitpr\.[a-f0-9]{12}\.css"', docs_html)
+    assert re.search(r'src="../assets/app\.[a-f0-9]{12}\.js"', docs_html)
+    assert re.search(r'src="../assets/uikitpr-creative\.[a-f0-9]{12}\.js"', docs_html)

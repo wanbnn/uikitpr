@@ -75,6 +75,7 @@ def UIProvider(props: Any = None, *children: Any, **kwargs: Any):
     """Raiz visual com tema, modo de cor e stylesheet opcionais."""
     from .cache import CacheRuntime
     from .motion import MotionRuntime
+    from .creative import CreativeRuntime
 
     p = component_props(props, children, **kwargs)
     theme = p.get("theme", "light")
@@ -88,6 +89,12 @@ def UIProvider(props: Any = None, *children: Any, **kwargs: Any):
         if p.get("motion_src"):
             motion_props["src"] = p["motion_src"]
         content.insert(1 if p.get("with_styles", True) else 0, MotionRuntime(motion_props))
+    if p.get("with_creative", True):
+        creative_props = {"minified": p.get("minified", False)}
+        if p.get("creative_src"):
+            creative_props["src"] = p["creative_src"]
+        insert_at = int(bool(p.get("with_styles", True))) + int(bool(p.get("with_motion", True)))
+        content.insert(insert_at, CreativeRuntime(creative_props))
     if p.get("with_cache", False):
         cache_props = {
             "src": p.get("cache_src"),
@@ -98,12 +105,12 @@ def UIProvider(props: Any = None, *children: Any, **kwargs: Any):
         }
         insert_at = int(bool(p.get("with_styles", True))) + int(
             bool(p.get("with_motion", True))
-        )
+        ) + int(bool(p.get("with_creative", True)))
         content.insert(insert_at, CacheRuntime(cache_props))
     if isinstance(theme, Theme) and theme.tokens:
         insert_at = int(bool(p.get("with_styles", True))) + int(
             bool(p.get("with_motion", True))
-        ) + int(bool(p.get("with_cache", False)))
+        ) + int(bool(p.get("with_creative", True))) + int(bool(p.get("with_cache", False)))
         content.insert(insert_at, h("style", None, theme.css()))
     root_props = dom_props(
         p,
@@ -114,6 +121,8 @@ def UIProvider(props: Any = None, *children: Any, **kwargs: Any):
             "with_styles",
             "with_motion",
             "motion_src",
+            "with_creative",
+            "creative_src",
             "with_cache",
             "cache_src",
             "service_worker",

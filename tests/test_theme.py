@@ -40,6 +40,18 @@ def test_default_styles_are_ssr_safe_data_url():
 def test_provider_includes_motion_runtime_by_default():
     html = render_to_static_markup(UIProvider("Aplicação", with_styles=False))
     assert 'data-uipr-motion-runtime="true"' in html
+    assert 'data-uipr-creative-runtime="true"' in html
+
+
+def test_provider_can_disable_or_externalize_creative_runtime():
+    disabled = render_to_static_markup(
+        UIProvider("Aplicação", with_styles=False, with_motion=False, with_creative=False)
+    )
+    assert "data-uipr-creative-runtime" not in disabled
+    external = render_to_static_markup(
+        UIProvider("Aplicação", with_styles=False, with_motion=False, creative_src="/creative.js")
+    )
+    assert 'src="/creative.js"' in external
 
 
 def test_provider_can_include_configured_cache_runtime():

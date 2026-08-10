@@ -29,6 +29,8 @@ UIKitPR brings Tailwind-like composition and ready-made components to PyReact:
 - motion with springs, timelines, stagger, scroll, events, and lifecycle;
 - fingerprinted web assets, manifests, updates, and Service Workers;
 - loaders, skeletons, and ready-to-use visual states;
+- text animations, animated backgrounds, marquees, and creative surfaces;
+- a native 135-item creative catalog for PyReact;
 - no JavaScript dependency or compilation step.
 
 ## Installation
@@ -94,6 +96,7 @@ borders, shadows, and responsive variants such as `md-grid-cols-3`.
 | Forms | `Input`, `Textarea`, `Select`, `Checkbox`, `Switch` |
 | Feedback | `Alert`, `Spinner`, `Progress`, `Modal` |
 | Data and navigation | `Card`, `Table`, `Navbar`, `Breadcrumb`, `Avatar` |
+| Creative effects | `BlurText`, `SplitText`, `GradientText`, `AuroraBackground`, `Marquee`, `SpotlightCard` |
 
 Unconsumed properties are forwarded to the DOM VNode, including `onClick`,
 `aria-*`, `data-*`, `style`, `id`, and `name`. See the
@@ -148,6 +151,36 @@ timelines; lifecycle events; declarative controls; dynamically added VNodes;
 and `prefers-reduced-motion`. See the
 [Motion guide](https://uikitpr.readthedocs.io/en/latest/MOTION.html).
 
+## Creative effects
+
+```python
+from uikitpr import AuroraBackground, BlurText, Marquee, SpotlightCard
+
+AuroraBackground(
+    SpotlightCard(BlurText("Build something memorable", delay=.06)),
+    color="#6d4aff",
+    secondary="#26c6da",
+)
+```
+
+The package includes animated text, backgrounds, borders, spotlights, and
+continuous marquees, all configurable through Python props and compatible with
+`prefers-reduced-motion`. Browse the live, copy-ready catalog on the
+[GitHub Pages documentation](https://wanbnn.github.io/uikitpr/docs/).
+
+### Complete creative catalog
+
+The extended catalog covers 22 text animations, 28 interactive animations,
+38 UI components, and 47 backgrounds. Import entries directly from `uikitpr`:
+
+```python
+from uikitpr import Aurora, ClickSpark, Dock, GlitchText
+```
+
+See the [complete list](docs/CREATIVE_CATALOG.md). The existing UIKitPR layout
+`Stack` remains unchanged; the creative draggable stack is available as
+`CreativeStack` or `uikitpr.creative.Stack`.
+
 ## Web cache and deployment
 
 `CacheManager` writes SHA-256-fingerprinted assets, an inspectable manifest, and
@@ -193,6 +226,7 @@ separately:
 uikitpr css -o static/uikitpr.css
 uikitpr css -o static/uikitpr.min.css --minify
 uikitpr motion -o static/uikitpr-motion.js
+uikitpr creative -o static/uikitpr-creative.js
 uikitpr cache -o static/uikitpr-cache.js
 ```
 

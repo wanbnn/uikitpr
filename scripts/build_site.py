@@ -15,6 +15,10 @@ from pyreact import h  # noqa: E402
 from pyreact.server import render_to_static_markup  # noqa: E402
 from uikitpr import (  # noqa: E402
     Alert,
+    AnimatedText,
+    AuroraBackground,
+    BeamBackground,
+    BlurText,
     Avatar,
     Badge,
     BarsLoader,
@@ -29,20 +33,30 @@ from uikitpr import (  # noqa: E402
     CardHeader,
     Checkbox,
     Container,
+    DotBackground,
     Grid,
+    GridBackground,
+    GradientText,
     Heading,
     Input,
+    Marquee,
     Motion,
     MotionGroup,
     MotionRuntime,
     OrbitLoader,
     PulseLoader,
     Progress,
+    CREATIVE_CATALOG,
+    CreativeRuntime,
     RingLoader,
     Skeleton,
     SkeletonCard,
+    ShinyText,
+    SplitText,
+    SpotlightCard,
     Spring,
     Stack,
+    StarBorder,
     Switch,
     Text,
     Textarea,
@@ -55,6 +69,7 @@ from uikitpr import (  # noqa: E402
     motion_script,
     stylesheet,
 )
+from uikitpr import creative, creative_script  # noqa: E402
 
 
 def Icon(name: str, class_name: str = "icon"):
@@ -100,10 +115,10 @@ def Icon(name: str, class_name: str = "icon"):
     )
 
 
-def Logo():
+def Logo(href: str = "#top"):
     return h(
         "a",
-        {"className": "site-logo", "href": "#top", "aria-label": "UIKitPR — início"},
+        {"className": "site-logo", "href": href, "aria-label": "UIKitPR — início"},
         h(
             "span",
             {"className": "logo-mark"},
@@ -288,6 +303,90 @@ def ComponentsSection():
                     class_name="component-grid",
                 ),
                 gap=10,
+            )
+        ),
+    )
+
+
+def EffectsSection():
+    return h(
+        "section",
+        {"className": "section section-effects", "id": "effects"},
+        Container(
+            Stack(
+                Stack(
+                    Badge("135 efeitos prontos", tone="primary", pill=True),
+                    Heading(
+                        "Efeitos prontos para sair do comum.",
+                        level=2,
+                        size="4xl",
+                        class_name="section-title",
+                    ),
+                    Text(
+                        "Textos animados, backgrounds e microinterações compostos como qualquer VNode PyReact.",
+                        tone="muted",
+                        size="lg",
+                        class_name="section-lead",
+                    ),
+                    gap=4,
+                    class_name="section-heading",
+                ),
+                Grid(
+                    SpotlightCard(
+                        Stack(
+                            Badge("Text animations", tone="info", pill=True),
+                            Heading(
+                                BlurText("Clareza em movimento", delay=.07),
+                                level=3,
+                                size="2xl",
+                            ),
+                            ShinyText("Blur · Split · Shiny · Gradient", class_name="effect-caption"),
+                            gap=4,
+                        ),
+                        class_name="effect-showcase-card",
+                    ),
+                    AuroraBackground(
+                        Stack(
+                            Badge("Backgrounds", tone="success", pill=True),
+                            Heading("Aurora sem WebGL", level=3, size="2xl"),
+                            Text("CSS leve, responsivo e controlado por props.", tone="muted"),
+                            gap=4,
+                        ),
+                        class_name="effect-showcase-card effect-aurora",
+                        opacity=.55,
+                    ),
+                    StarBorder(
+                        Stack(
+                            Badge("UI effects", tone="warning", pill=True),
+                            Heading("Detalhes que respondem", level=3, size="2xl"),
+                            Text("Spotlight, bordas orbitais e marquees.", tone="muted"),
+                            gap=4,
+                            class_name="effect-star-content",
+                        ),
+                        class_name="effect-showcase-card",
+                    ),
+                    cols=3,
+                    gap=5,
+                    class_name="effects-grid",
+                ),
+                Marquee(
+                    Badge("BlurText", tone="primary"),
+                    Badge("AuroraBackground", tone="info"),
+                    Badge("SpotlightCard", tone="success"),
+                    Badge("GradientText", tone="warning"),
+                    Badge("StarBorder", tone="danger"),
+                    duration=18,
+                    class_name="effects-marquee",
+                ),
+                Button(
+                    "Explorar catálogo e copiar código",
+                    Icon("arrow"),
+                    as_="a",
+                    href="docs/",
+                    size="lg",
+                    class_name="effects-cta",
+                ),
+                gap=8,
             )
         ),
     )
@@ -635,6 +734,149 @@ def ThemeSection():
     )
 
 
+_DOC_DESCRIPTIONS = {
+    "text": "Animação tipográfica pronta e configurável.",
+    "animation": "Efeito interativo com runtime compartilhado.",
+    "component": "Componente visual composto para interfaces criativas.",
+    "background": "Background animado com cores, velocidade e intensidade configuráveis.",
+}
+
+DOC_ITEMS = tuple(
+    (
+        item.category,
+        f"creative-{item.slug}",
+        item.name,
+        _DOC_DESCRIPTIONS[item.category],
+        f'from uikitpr import {"CreativeStack" if item.name == "Stack" else item.name}\n\n'
+        f'{"CreativeStack" if item.name == "Stack" else item.name}("Seu conteúdo", color="#8b5cf6")',
+    )
+    for item in CREATIVE_CATALOG
+)
+
+
+def DocsDemo(slug: str):
+    item = next((item for item in CREATIVE_CATALOG if f"creative-{item.slug}" == slug), None)
+    if item is not None:
+        component = getattr(creative, item.name)
+        if item.category == "text":
+            if item.name == "CountUp":
+                return component(from_=0, to=135, color="#9a82ff")
+            return Heading(component(item.name.replace("Text", " Text"), speed=7), level=3, size="2xl")
+        if item.category == "background":
+            return component(
+                Stack(Badge("live", tone="success", pill=True), Heading(item.name, level=3, size="xl"), gap=3, class_name="docs-background-content"),
+                class_name="docs-background-demo",
+            )
+        if item.category == "animation":
+            return component(
+                Stack(Heading(item.name, level=3, size="xl"), Text("Mova o ponteiro e interaja.", tone="muted"), gap=3, class_name="docs-background-content"),
+                class_name="docs-background-demo",
+            )
+        return component(items=[f"{item.name} 01", f"{item.name} 02", f"{item.name} 03"])
+    raise KeyError(f"Componente de documentação desconhecido: {slug}")
+
+
+def DocsCard(category: str, slug: str, title: str, description: str, code: str):
+    labels = {"text": "Text animation", "animation": "Animation", "background": "Background", "component": "Component", "motion": "Motion"}
+    return h(
+        "article",
+        {
+            "className": "docs-card",
+            "id": slug,
+            "data-doc-item": "true",
+            "data-doc-category": category,
+            "data-doc-search": f"{title} {description} {category}".lower(),
+        },
+        h("div", {"className": "docs-card-heading"}, Badge(labels[category], tone="primary", pill=True), Heading(title, level=2, size="2xl"), Text(description, tone="muted")),
+        h("div", {"className": "docs-demo"}, DocsDemo(slug)),
+        h(
+            "div",
+            {"className": "docs-code"},
+            h("div", {"className": "docs-code-bar"}, h("span", None, "Python"), h("button", {"type": "button", "data-copy": code, "aria-label": f"Copiar exemplo de {title}"}, Icon("copy"), " Copiar")),
+            h("pre", None, h("code", None, code)),
+        ),
+    )
+
+
+def DocsDocument(asset_urls: dict[str, str]):
+    groups = (
+        ("text", "Animações de texto"),
+        ("animation", "Animações"),
+        ("background", "Backgrounds"),
+        ("component", "Componentes criativos"),
+    )
+    return h(
+        "html",
+        {"lang": "pt-BR"},
+        h(
+            "head",
+            None,
+            h("meta", {"charset": "utf-8"}),
+            h("meta", {"name": "viewport", "content": "width=device-width, initial-scale=1"}),
+            h("meta", {"name": "description", "content": "Catálogo de componentes, backgrounds e animações do UIKitPR."}),
+            h("title", None, "Componentes e efeitos — UIKitPR"),
+            h("link", {"rel": "preconnect", "href": "https://fonts.googleapis.com"}),
+            h("link", {"href": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600;700;800&display=swap", "rel": "stylesheet"}),
+            h("link", {"rel": "stylesheet", "href": f"../{asset_urls['uikitpr.css']}"}),
+            h("link", {"rel": "stylesheet", "href": f"../{asset_urls['site.css']}"}),
+        ),
+        h(
+            "body",
+            None,
+            h(
+                "div",
+                {"className": "uipr-root site-root docs-root", "data-uipr-theme": "light", "data-uipr-color-mode": "light", "id": "top"},
+                h(
+                    "header",
+                    {"className": "site-header docs-header"},
+                    Container(
+                        Logo("../"),
+                        h("div", {"className": "docs-search-wrap"}, h("input", {"className": "docs-search", "type": "search", "placeholder": "Buscar efeitos...", "aria-label": "Buscar na documentação", "data-doc-search-input": "true"})),
+                        Stack(
+                            Button(Icon("moon"), variant="ghost", size="sm", **{"aria-label": "Alternar tema", "data-theme-toggle": "true"}),
+                            Button("GitHub", as_="a", href="https://github.com/wanbnn/uikitpr", variant="outline", size="sm"),
+                            direction="row", gap=2, align="center",
+                        ),
+                        class_name="header-inner docs-header-inner",
+                    ),
+                ),
+                h(
+                    "div",
+                    {"className": "docs-layout"},
+                    h(
+                        "aside",
+                        {"className": "docs-sidebar", "aria-label": "Seções da documentação"},
+                        h("a", {"href": "#introduction", "className": "docs-sidebar-intro"}, "Introdução"),
+                        *[
+                            h("div", {"className": "docs-sidebar-group"}, h("strong", None, label), *[h("a", {"href": f"#{slug}"}, title) for item_category, slug, title, _, _ in DOC_ITEMS if item_category == category])
+                            for category, label in groups
+                        ],
+                    ),
+                    h(
+                        "main",
+                        {"className": "docs-main"},
+                        h(
+                            "section",
+                            {"className": "docs-intro", "id": "introduction"},
+                            Badge("UIKitPR / Catálogo", tone="primary", pill=True),
+                            Heading("Componentes criativos. Python de verdade.", level=1, class_name="docs-title"),
+                            Text("Copie o exemplo, ajuste as props e componha. Todos os efeitos abaixo vêm no wheel, respeitam reduced motion e não exigem uma toolchain JavaScript.", tone="muted", size="lg", class_name="docs-lead"),
+                            CodeBlock("prpm add uikitpr"),
+                            h("div", {"className": "docs-filters", "aria-label": "Filtrar catálogo"}, Button("Todos", variant="primary", size="sm", **{"data-doc-filter": "all"}), *[Button(label, variant="ghost", size="sm", **{"data-doc-filter": category}) for category, label in groups]),
+                        ),
+                        h("div", {"className": "docs-grid"}, *[DocsCard(*item) for item in DOC_ITEMS]),
+                        h("p", {"className": "docs-empty", "data-doc-empty": "true", "hidden": True}, "Nenhum item encontrado."),
+                    ),
+                ),
+                h("div", {"className": "toast", "role": "status", "aria-live": "polite"}),
+                MotionRuntime(src=f"../{asset_urls['uikitpr-motion.js']}"),
+                CreativeRuntime(src=f"../{asset_urls['uikitpr-creative.js']}"),
+                h("script", {"src": f"../{asset_urls['app.js']}", "defer": True}),
+            ),
+        ),
+    )
+
+
 def App(asset_urls: dict[str, str], cache_version: str):
     return h(
         "div",
@@ -649,6 +891,7 @@ def App(asset_urls: dict[str, str], cache_version: str):
                     {"className": "site-nav", "aria-label": "Navegação principal"},
                     h("a", {"href": "#features"}, "Recursos"),
                     h("a", {"href": "#components"}, "Componentes"),
+                    h("a", {"href": "#effects"}, "Efeitos"),
                     h("a", {"href": "#motion"}, "Motion"),
                     h("a", {"href": "#utilities"}, "Utilitários"),
                     h("a", {"href": "#themes"}, "Temas"),
@@ -662,12 +905,12 @@ def App(asset_urls: dict[str, str], cache_version: str):
                         **{"aria-label": "Alternar tema", "data-theme-toggle": "true"},
                     ),
                     Button(
-                        "GitHub",
+                        "Docs",
                         Icon("arrow"),
                         variant="outline",
                         size="sm",
                         as_="a",
-                        href="https://github.com/wanbnn/uikitpr",
+                        href="docs/",
                     ),
                     direction="row",
                     gap=2,
@@ -784,6 +1027,7 @@ def App(asset_urls: dict[str, str], cache_version: str):
                 ),
             ),
             ComponentsSection(),
+            EffectsSection(),
             MotionSection(),
             UtilitiesSection(),
             ThemeSection(),
@@ -917,6 +1161,11 @@ def build(output: Path) -> Path:
         cache_script(),
         content_type="text/javascript",
     )
+    cache.add_text(
+        "uikitpr-creative.js",
+        creative_script(),
+        content_type="text/javascript",
+    )
     cache.add_file("site.css", ROOT / "site" / "assets" / "site.css")
     cache.add_file("app.js", ROOT / "site" / "assets" / "app.js")
     asset_urls = {name: asset.path for name, asset in cache.assets.items()}
@@ -925,7 +1174,13 @@ def build(output: Path) -> Path:
         + render_to_static_markup(Document(asset_urls, UIKITPR_VERSION)),
         encoding="utf-8",
     )
-    cache.finalize(precache=["./"])
+    docs_output = output / "docs"
+    docs_output.mkdir(parents=True, exist_ok=True)
+    (docs_output / "index.html").write_text(
+        "<!doctype html>\n" + render_to_static_markup(DocsDocument(asset_urls)),
+        encoding="utf-8",
+    )
+    cache.finalize(precache=["./", "./docs/"])
     (output / ".nojekyll").write_text("", encoding="utf-8")
     return output
 

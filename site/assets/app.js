@@ -32,6 +32,39 @@
     });
   });
 
+  const docsSearch = document.querySelector("[data-doc-search-input]");
+  const docsItems = [...document.querySelectorAll("[data-doc-item]")];
+  const docsFilters = [...document.querySelectorAll("[data-doc-filter]")];
+  const docsEmpty = document.querySelector("[data-doc-empty]");
+  let docsCategory = "all";
+  const updateDocs = () => {
+    const query = docsSearch?.value.trim().toLowerCase() || "";
+    let visible = 0;
+    docsItems.forEach((item) => {
+      const categoryMatches = docsCategory === "all" || item.dataset.docCategory === docsCategory;
+      const searchMatches = !query || item.dataset.docSearch.includes(query);
+      item.hidden = !(categoryMatches && searchMatches);
+      if (!item.hidden) visible += 1;
+    });
+    if (docsEmpty) docsEmpty.hidden = visible !== 0;
+  };
+  docsSearch?.addEventListener("input", updateDocs);
+  docsFilters.forEach((button) => {
+    button.addEventListener("click", () => {
+      docsCategory = button.dataset.docFilter;
+      docsFilters.forEach((item) => {
+        item.classList.toggle("uipr-button-primary", item === button);
+        item.classList.toggle("uipr-button-ghost", item !== button);
+      });
+      updateDocs();
+    });
+  });
+  if (document.querySelector(".docs-root") && window.location.hash) {
+    window.setTimeout(() => {
+      document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ block: "start" });
+    }, 120);
+  }
+
   const motionEvent = document.querySelector("[data-motion-event]");
   const motionMonitor = motionEvent?.closest(".motion-event-monitor");
   const motionTarget = "motion-lab-card";

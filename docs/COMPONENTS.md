@@ -21,6 +21,13 @@ attributes. The values below are specific to UIKitPR.
 | `Motion` | `preset`, `trigger`, `transition`, `while_hover`, `while_tap` |
 | `MotionGroup` | `preset`, `stagger`, `delay`, `trigger` |
 | `MotionTimeline` | `timeline=Timeline(...)` |
+| `AnimatedText` | `effect`, `by`, `delay`, `duration`, `distance` |
+| `BlurText` / `SplitText` | `delay`, `duration`, `by` |
+| `ShinyText` / `GradientText` | `duration`, `color` / `colors` |
+| Backgrounds | `color`, `secondary`, `size`, `speed`, `opacity` |
+| `SpotlightCard` | `spotlight` |
+| `StarBorder` | `color`, `speed` |
+| `Marquee` | `duration`, `gap`, `reverse` |
 | Loaders | `size`, `tone`, `label` |
 | `Skeleton` | `variant`, `lines` |
 | `PageLoader` | `loader`, `overlay`, `label` |
