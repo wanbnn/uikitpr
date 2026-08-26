@@ -331,6 +331,19 @@ const shouldHandleRequest = (request) => {
     || isExplicitRuntimePath(url);
 };
 
+const purgeUnsafeEntries = async () => {
+  const cache = await currentCache();
+  const requests = await cache.keys();
+  await Promise.all(requests.map(async (request) => {
+    if (!shouldHandleRequest(request)) {
+      await cache.delete(request);
+      return;
+    }
+    const response = await cache.match(request);
+    if (response && !responseIsCacheable(response)) await cache.delete(request);
+  }));
+};
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
     currentCache()
@@ -347,6 +360,7 @@ self.addEventListener("activate", (event) => {
           .filter((name) => name.startsWith(`${CONFIG.cachePrefix}-`) && name !== CONFIG.cacheName)
           .map((name) => caches.delete(name))
       ))
+      .then(() => purgeUnsafeEntries())
       .then(() => self.clients.claim())
   );
 });
