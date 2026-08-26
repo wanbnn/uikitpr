@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import base64
 from dataclasses import dataclass, field
+from functools import lru_cache
 from importlib.resources import files
 import re
 from typing import Any, Mapping
@@ -34,18 +35,41 @@ def create_theme(name: str = "custom", **tokens: str) -> Theme:
     return Theme(name=name, tokens=tokens)
 
 
+@lru_cache(maxsize=2)
 def stylesheet(*, minified: bool = False) -> str:
-    """Lê o CSS distribuído junto do pacote."""
+    """Lê o CSS distribuído junto do pacote uma vez por variante."""
     css = files("uikitpr").joinpath("assets/uikitpr.css").read_text(encoding="utf-8")
     if not minified:
         return css
     return " ".join(line.strip() for line in css.splitlines() if line.strip())
 
 
+@lru_cache(maxsize=2)
 def stylesheet_data_url(*, minified: bool = True) -> str:
-    """Retorna uma URL ``data:`` que permanece íntegra no SSR do PyReact."""
+    """Retorna uma URL ``data:`` SSR-safe, reutilizada entre renders."""
     payload = base64.b64encode(stylesheet(minified=minified).encode("utf-8")).decode("ascii")
     return f"data:text/css;base64,{payload}"
+
+
+@lru_cache(maxsize=6)
+def _runtime_data_url(kind: str, minified: bool) -> str:
+    """Materializa runtimes estáticos apenas uma vez por processo e variante."""
+    if kind == "motion":
+        from .motion import motion_script
+
+        source = motion_script(minified=minified)
+    elif kind == "creative":
+        from .creative import creative_script
+
+        source = creative_script(minified=minified)
+    elif kind == "cache":
+        from .cache import cache_script
+
+        source = cache_script(minified=minified)
+    else:
+        raise ValueError(f"Runtime UIKitPR desconhecido: {kind}")
+    payload = base64.b64encode(source.encode("utf-8")).decode("ascii")
+    return f"data:text/javascript;base64,{payload}"
 
 
 def Styles(props: Any = None, *children: Any, **kwargs: Any):
@@ -81,23 +105,26 @@ def UIProvider(props: Any = None, *children: Any, **kwargs: Any):
     theme = p.get("theme", "light")
     theme_name = theme.name if isinstance(theme, Theme) else str(theme)
     color_mode = p.get("color_mode", theme_name)
+    minified = bool(p.get("minified", False))
     content = children_of(p)
     if p.get("with_styles", True):
-        content.insert(0, Styles({"minified": p.get("minified", False)}))
+        content.insert(0, Styles({"minified": minified}))
     if p.get("with_motion", True):
-        motion_props = {"minified": p.get("minified", False)}
-        if p.get("motion_src"):
-            motion_props["src"] = p["motion_src"]
+        motion_props = {
+            "minified": minified,
+            "src": p.get("motion_src") or _runtime_data_url("motion", minified),
+        }
         content.insert(1 if p.get("with_styles", True) else 0, MotionRuntime(motion_props))
     if p.get("with_creative", True):
-        creative_props = {"minified": p.get("minified", False)}
-        if p.get("creative_src"):
-            creative_props["src"] = p["creative_src"]
+        creative_props = {
+            "minified": minified,
+            "src": p.get("creative_src") or _runtime_data_url("creative", minified),
+        }
         insert_at = int(bool(p.get("with_styles", True))) + int(bool(p.get("with_motion", True)))
         content.insert(insert_at, CreativeRuntime(creative_props))
     if p.get("with_cache", False):
         cache_props = {
-            "src": p.get("cache_src"),
+            "src": p.get("cache_src") or _runtime_data_url("cache", True),
             "service_worker": p.get("service_worker", "sw.js"),
             "manifest": p.get("cache_manifest", "asset-manifest.json"),
             "version": p.get("cache_version", "1"),
