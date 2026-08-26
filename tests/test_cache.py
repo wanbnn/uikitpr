@@ -64,6 +64,8 @@ def test_service_worker_limits_runtime_cache_to_safe_requests(tmp_path):
     assert 'cache.match(request)' in worker
     assert 'caches.match(request)' not in worker
     assert '"runtimeCachePaths":[]' in worker
+    assert 'const purgeUnsafeEntries = async () =>' in worker
+    assert '.then(() => purgeUnsafeEntries())' in worker
 
 
 def test_service_worker_supports_explicit_public_runtime_paths(tmp_path):
