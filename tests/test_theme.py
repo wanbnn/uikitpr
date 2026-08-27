@@ -1,6 +1,7 @@
 from pyreact.server import render_to_static_markup
 
 from uikitpr import Styles, UIProvider, create_theme, stylesheet
+from uikitpr.theme import stylesheet_data_url
 
 
 def test_stylesheet_contains_components_utilities_and_dark_theme():
@@ -12,6 +13,21 @@ def test_stylesheet_contains_components_utilities_and_dark_theme():
 
 def test_minified_stylesheet_is_smaller():
     assert len(stylesheet(minified=True)) < len(stylesheet())
+
+
+def test_stylesheet_transforms_are_memoized_per_variant():
+    stylesheet.cache_clear()
+    stylesheet_data_url.cache_clear()
+
+    first = stylesheet_data_url(minified=False)
+    for _ in range(99):
+        assert stylesheet_data_url(minified=False) is first
+
+    data_url_info = stylesheet_data_url.cache_info()
+    stylesheet_info = stylesheet.cache_info()
+    assert data_url_info.misses == 1
+    assert data_url_info.hits == 99
+    assert stylesheet_info.misses == 1
 
 
 def test_custom_theme_is_rendered_in_provider():
