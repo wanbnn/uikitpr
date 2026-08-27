@@ -7,7 +7,7 @@ name = "uikitpr"
 version = "0.3.2"
 description = "Complete visual framework with components, motion, and events for PyReact"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [
@@ -27,7 +27,6 @@ classifiers = [
   "Intended Audience :: Developers",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -78,4 +77,3 @@ test = "python -m pytest"
 build = "python -m build"
 check = "python -m twine check dist/*"
 site = "python scripts/build_site.py"
-serve = "python -m http.server 8000 --directory _site"
