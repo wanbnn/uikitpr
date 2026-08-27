@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import base64
 from dataclasses import dataclass
+from functools import lru_cache
 from importlib.resources import files
 import re
 from typing import Any
@@ -235,6 +236,7 @@ for _item in CREATIVE_CATALOG:
     globals()[_item.name] = _factory(_item)
 
 
+@lru_cache(maxsize=2)
 def creative_script(*, minified: bool = False) -> str:
     script = files("uikitpr").joinpath("assets/uikitpr-creative.js").read_text(encoding="utf-8")
     if not minified:
@@ -242,12 +244,24 @@ def creative_script(*, minified: bool = False) -> str:
     return " ".join(line.strip() for line in script.splitlines() if line.strip() and not line.lstrip().startswith("//"))
 
 
+@lru_cache(maxsize=2)
+def _creative_script_data_url(*, minified: bool = True) -> str:
+    payload = base64.b64encode(creative_script(minified=minified).encode()).decode()
+    return f"data:text/javascript;base64,{payload}"
+
+
 def CreativeRuntime(props: Any = None, *children: Any, **kwargs: Any):
     p = component_props(props, children, **kwargs)
     if p.get("src"):
         return h("script", {"src": p["src"], "defer": True, "data-uipr-creative-runtime": "true"})
-    payload = base64.b64encode(creative_script(minified=bool(p.get("minified"))).encode()).decode()
-    return h("script", {"src": f"data:text/javascript;base64,{payload}", "defer": True, "data-uipr-creative-runtime": "true"})
+    return h(
+        "script",
+        {
+            "src": _creative_script_data_url(minified=bool(p.get("minified"))),
+            "defer": True,
+            "data-uipr-creative-runtime": "true",
+        },
+    )
 
 
 __all__ = [
