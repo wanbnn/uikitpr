@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import base64
 from dataclasses import dataclass, field
+from functools import lru_cache
 from importlib.resources import files
 import re
 from typing import Any, Mapping
@@ -34,16 +35,18 @@ def create_theme(name: str = "custom", **tokens: str) -> Theme:
     return Theme(name=name, tokens=tokens)
 
 
+@lru_cache(maxsize=2)
 def stylesheet(*, minified: bool = False) -> str:
-    """Lê o CSS distribuído junto do pacote."""
+    """Lê e memoiza o CSS distribuído junto do pacote."""
     css = files("uikitpr").joinpath("assets/uikitpr.css").read_text(encoding="utf-8")
     if not minified:
         return css
     return " ".join(line.strip() for line in css.splitlines() if line.strip())
 
 
+@lru_cache(maxsize=2)
 def stylesheet_data_url(*, minified: bool = True) -> str:
-    """Retorna uma URL ``data:`` que permanece íntegra no SSR do PyReact."""
+    """Retorna e memoiza uma URL ``data:`` íntegra no SSR do PyReact."""
     payload = base64.b64encode(stylesheet(minified=minified).encode("utf-8")).decode("ascii")
     return f"data:text/css;base64,{payload}"
 
