@@ -5,7 +5,7 @@
 The utility-first visual framework built for PyReact.
 
 [![PyPI](https://img.shields.io/pypi/v/uikitpr?logo=pypi&logoColor=white)](https://pypi.org/project/uikitpr/)
-[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)](https://python.org)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://python.org)
 [![PyReact](https://img.shields.io/badge/PyReact-1.0.5%2B-6D4AFF)](https://github.com/wanbnn/pyreact)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/wanbnn/uikitpr/blob/main/LICENSE)
 [![Docs](https://readthedocs.org/projects/uikitpr/badge/?version=latest)](https://uikitpr.readthedocs.io/en/latest/)
@@ -34,6 +34,9 @@ UIKitPR brings Tailwind-like composition and ready-made components to PyReact:
 - no JavaScript dependency or compilation step.
 
 ## Installation
+
+UIKitPR requires Python 3.10 or newer, matching the supported baseline of its
+required PyReact runtime dependency.
 
 ```bash
 prpm add uikitpr
