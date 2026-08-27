@@ -26,7 +26,7 @@ def test_button_direct_api_has_variant_type_and_child():
 
 
 def test_button_works_as_pyreact_component_with_children_prop():
-    html = render(h(Button, {"children": "Continuar", "variant": "outline"}))
+    html = render(h(Button, {"variant": "outline"}, "Continuar"))
     assert "uipr-button-outline" in html
     assert "Continuar" in html
 
@@ -73,4 +73,3 @@ def test_closed_modal_renders_nothing_and_open_modal_is_dialog():
     html = render(Modal("conteúdo", open=True, title="Detalhes"))
     assert 'role="dialog"' in html
     assert 'aria-modal="true"' in html
-
