@@ -43,3 +43,18 @@ def test_shared_runtime_is_ssr_safe_and_packaged():
     html = render_to_static_markup(CreativeRuntime())
     assert 'data-uipr-creative-runtime="true"' in html
     assert "data:text/javascript;base64," in html
+
+
+def test_creative_runtime_asset_transforms_are_memoized():
+    creative_script.cache_clear()
+    creative._creative_script_data_url.cache_clear()
+
+    first = CreativeRuntime().props["src"]
+    for _ in range(99):
+        assert CreativeRuntime().props["src"] is first
+
+    data_url_info = creative._creative_script_data_url.cache_info()
+    script_info = creative_script.cache_info()
+    assert data_url_info.misses == 1
+    assert data_url_info.hits == 99
+    assert script_info.misses == 1
