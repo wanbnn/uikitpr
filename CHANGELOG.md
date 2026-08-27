@@ -4,6 +4,8 @@ All notable UIKitPR changes will be documented in this file.
 
 ## Unreleased
 
+- Raised the supported Python baseline to 3.10 so UIKitPR's package metadata,
+  CI matrix, and documentation match the required PyReact runtime dependency.
 - Added animated text primitives: `AnimatedText`, `BlurText`, `SplitText`,
   `ShinyText`, and `GradientText`.
 - Added Aurora, dots, grid, and beam background components.
